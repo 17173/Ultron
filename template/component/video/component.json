@@ -1,0 +1,35 @@
+{
+    "author" : "cym",
+    "type": "video",
+    "version": "1.0.0",
+    "name": "视频",
+    "config": {
+        "title": "组件标题", 
+        "link": "http://www.link.com",  
+        "showMore": "true", 
+        "showPagination": "true", 
+        "totalSize": "1000", 
+        "pageSize": "50",  
+        "titleLength": "50", 
+        "sortOrder": "1", 
+        "dateFormat": "yy-MM-dd", 
+        "imageWidth": "120", 
+        "imageHeight": "120",
+        "playMode": "1",  
+        "interval": "5", 
+        "day": "true", 
+        "week": "true",
+        "month": "true",
+        "halfYear": "true", 
+        "defaultList": "month", 
+        "hits": "true"
+    },
+    "data": [
+        {
+            "videoUrl": "http://www.17173.com",
+            "imgPath": "http://images.17173.com/2014/xin/2014/07/02/csq0702hzls.jpg",
+            "videoHeight": 100,
+            "videoWidth":100
+        }
+    ]
+}

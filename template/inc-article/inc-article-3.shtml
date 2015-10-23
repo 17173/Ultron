@@ -1,0 +1,175 @@
+<div class="zhuanqu-v1">
+	<div class="mod-article">
+	<div class="breadcrumb">
+		<a name="breadcrumb"></a>
+		<a href="http://www.17173.com/?pos_ref=zq_a">17173</a> &gt; <a href="{{channelUrl}}">{{channelName}}</a> &gt; {{#if categoryUrl}}<a href="{{categoryUrl}}" target="_blank">{{categoryName}}</a>{{else}}{{categoryName}}{{/if}} &gt; {{title}}
+	</div>
+
+	<div class="article" data-widget="article">
+		<div class="font-size" data-role="set-fontsize">
+			<span>字号： </span>
+			<a href="javascript:void(0)" title="16">大</a>
+			<a href="javascript:void(0)" class="current" title="14">中</a>
+			<a href="javascript:void(0)" title="12">小</a>
+		</div>
+		
+		<a name="title"></a>
+		<h1>{{title}}</h1>
+		<div class="info">
+			<span class="col-01">时间：{{dateFormat publishTime "yyyy-MM-dd"}}</span>
+			<span class="col-02">作者：{{author}}</span>
+			<a href="http://a.17173.com/tg/channel/index.html?id=A0011502071" target="_blank" class="app-rss"><i class="ico-app"></i>手机订阅</a> 
+			<span class="col-03">
+				参与评论(<a href="#changyan_area" id="changyan_count_unit">0</a>)
+					<a href="http://zj.17173.com/author/pubarticle.php?classid={{channelCode}}" target="_blank">【投稿】</a>
+			</span>
+		</div>
+		<a name="summary"></a>
+		<div class="summary">
+			<div class="col-01">文 章<br>摘 要</div>
+			<div class="col-02">
+					{{description}}
+			</div>
+			<div class="clear"></div>
+		</div>
+		<a name="content"></a>
+		<div class="article-content">
+			{{{contentText}}}
+			<!-- <p>{{origin}} {{originUrl}}</p>
+			<p>{{copyrightInfo}}</p> -->
+		</div>
+	{{#if pagedData}}
+	{{#ifCond shiftPageType '==' 2}}
+		{{#if shiftTitle}}
+		<div id="fykuang" float:left;="">
+			<table cellspacing="0" cellpadding="0" width="100%" border="0">
+				<tbody>
+					<tr>
+						<td>
+							<select onchange="javascript:window.location=(this.options[this.selectedIndex].value);" name="gotopage">
+								{{#each pagedData.pagedList}}
+								    {{#ifCond ../pagedData.currentPage '==' pageNo}}
+								    	<option value="{{url}}" selected="">{{pageNo}}：{{title}}</option>
+								    {{else}}
+								    	<option value="{{url}}">{{pageNo}}：{{title}}</option>
+								    {{/ifCond}}
+							    {{/each}}
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		{{/if}}
+	{{/ifCond}}
+	<div class="mod-page-switcher">
+		
+		    {{#ifCond pagedData.currentPage '>' 1}}
+			    <a class="page-first" href="{{pagedData.pagedList.[0].url}}">首页</a>
+			    <a class="page-prev" href="{{getPrevUrl pagedData.pagedList pagedData.currentPage}}">上一页</a>
+		    {{/ifCond}}
+
+		    {{#each pagedData.pagedList}}
+			    {{#showSegment ../pagedData.currentPage ../pagedData.totalPage pageNo 5}}
+				    {{#ifCond ../../pagedData.currentPage '==' pageNo}}
+						<span class="page-current">{{pageNo}}</span>
+				    {{else}}
+				    	<a title="{{title}}" href="{{url}}">{{pageNo}}</a>
+				    {{/ifCond}}
+			    {{/showSegment}}
+		    {{/each}}
+
+		    {{#ifCond pagedData.currentPage '<' pagedData.totalPage}}
+			    <a class="page-next" href="{{getNextUrl pagedData.pagedList pagedData.currentPage}}">下一页</a>
+			    <a class="page-last" href="{{getLastUrl pagedData.pagedList}}">末页</a>
+		    {{/ifCond}}
+		
+	</div>
+
+	<div class="mod-page-allinone">
+		<a href="{{pagedData.viewAllUrl}}">在本页阅读全文&gt;&gt;</a>
+	</div>
+		{{#if shiftTitle}}
+			<div class="mod-page-nav">
+				<div class="page-title">本文导航</div>
+				<ul class="page-col page-col1">
+					{{#each pagedData.pagedList}}
+						{{#ifCond pageNo '%' 2 '==' 1}}
+						    {{#ifCond ../pagedData.currentPage '==' pageNo}}
+						    	<li><span class="page-current">第{{pageNo}}页:{{title}}</span></li>
+						    {{else}}
+						    	<li><a title="第{{pageNo}}页:{{title}}" href="{{url}}">第{{pageNo}}页:{{title}}</a></li>
+						    {{/ifCond}}
+					    {{/ifCond}}
+				    {{/each}}
+				</ul>
+				<ul class="page-col page-col2">
+					{{#each pagedData.pagedList}}
+						{{#ifCond pageNo '%' 2 '==' 0}}
+						    {{#ifCond ../pagedData.currentPage '==' pageNo}}
+						    	<li><span class="page-current">第{{pageNo}}页:{{title}}</span></li>
+						    {{else}}
+						    	<li><a title="第{{pageNo}}页:{{title}}" href="{{url}}">第{{pageNo}}页:{{title}}</a></li>
+						    {{/ifCond}}
+					    {{/ifCond}}
+				    {{/each}}
+				</ul>
+				<div class="clear"></div>
+			</div>
+		{{/if}}
+	{{/if}}
+
+	<div class="app17173-code clearfix">
+	<div class="app17173-code-l">手机看攻略，电脑玩游戏两不误！<br>
+	加点再也不需要切来切去啦~<br>
+	<a href="http://a.17173.com/tg/channel/index.html?id=A0011502071" target="_blank">下载17173APP</a><br>
+	<span>【{{channelName}}】</span>最新消息第一时间推送给你</div>
+	<div class="app17173-code-r">
+	<img alt="" src="http://ue3.17173cdn.com/a/news/zt/2014/yzyy/img/code.jpg" height="79" width="79">
+	</div>
+	</div>
+{{#ifCond plugin.hasShare '||' plugin.hasViewPoint '||' plugin.hasVote '==' 'true'}}
+			<a name="panel"></a>
+			<div class="panel">
+				{{#if plugin.hasShare}}
+					<div class="row-1">
+				    	<div class="fl share" data-widget="share">
+
+				    	</div>
+					    <div class="functions fr"><a href="javascript:void(0)" data-role="add-bookmark">收藏本文</a></div>
+					</div>
+				{{/if}}
+				
+				{{#if plugin.hasViewPoint}}
+					<div class="article-tags-content" data-widget="viewpoint" data-widget-article-title="{{title}}" data-widget-article-url="{{pageUrl}}"></div>
+				{{/if}}
+
+				{{#if plugin.hasVote}}
+					<div class="row-2">
+					  <div class="js-mood" data-widget="mood" data-widget-channel-id="{{channelCode}}" data-widget-web-id="{{id}}" data-widget-kind-id="{{contentType}}"></div>
+					</div>
+				{{/if}}
+			</div>
+{{/ifCond}}  
+		{{#if plugin.hasRelateNews}}
+			<a name="related"></a>
+			<div class="related">
+				<h2>与<em>{{tags}}</em>相关的文章有：</h2>
+				<ul>
+					{{#each relateList}}
+						<li><a href="{{pageUrl}}" target="_blank">{{title}}</a><span class="date">({{dateFormat publishTime "yyyy-MM-dd"}})</span></li>
+					{{/each}} 
+				</ul>
+			</div>
+		{{/if}}
+		{{#if plugin.hasComment}}
+			<a name="comments"></a>
+			<div class="comments" data-widget="changyan">
+				<div id="SOHUCS" sid="{{contentKey}}"></div>
+			</div>
+		{{/if}}
+		
+	</div><!-- article end-->
+
+	</div>
+</div>

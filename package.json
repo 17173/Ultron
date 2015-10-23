@@ -1,0 +1,51 @@
+{
+  "name": "ultron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --inline --hot --quiet",
+    "hot-server": "node server.js",
+    "start-hot": "HOT=1 NODE_ENV=development electron .",
+    "build": "NODE_ENV=production webpack --progress --hide-modules",
+    "build1": "NODE_ENV=production webpack --config webpack.config.production.js --progress --profile --colors"
+  },
+  "homepage": "https://github.com/17173/ultron",
+  "bugs": "https://github.com/17173/ultron/issues",
+  "author": {
+      "name": "lynzz",
+      "email": "lynzz168@gmail.com",
+      "url": "https://github.com/lynzz"
+  },
+  "author": "lynzz",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^5.8.25",
+    "babel-loader": "^5.3.2",
+    "babel-runtime": "^5.8.25",
+    "css-loader": "^0.21.0",
+    "extract-text-webpack-plugin": "^0.8.2",
+
+    "jade": "^1.11.0",
+
+    "style-loader": "^0.13.0",
+    "stylus-loader": "^1.4.0",
+    "template-html-loader": "0.0.3",
+    "vue-html-loader": "^1.0.0",
+    "vue-loader": "^4.0.8",
+    "vue-strap": "^0.1.2",
+
+    "webpack": "^1.12.2",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-dev-server": "^1.12.0",
+    "webpack-hot-middleware": "^2.4.1",
+    "webpack-target-electron-renderer": "^0.1.1"
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "rimraf": "^2.4.3",
+    "iconv-lite": "^0.4.13",
+    "walk": "^2.3.9",
+    "walk-folder-tree": "^1.0.1"
+  }
+}

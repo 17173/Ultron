@@ -1,0 +1,19 @@
+{{#if pagedData}}
+<div class="pagination" data-mod-type="pagination" data-order="13">
+  <ul>
+    {{#ifCond pagedData.currentPage '>' 1}}
+    <li><a href="{{pagedData.pagedList.[0].url}}">首页</a></li>
+    <li><a href="{{getPrevUrl pagedData.pagedList pagedData.currentPage}}">上一页</a></li>
+    {{/ifCond}}
+    {{#each pagedData.pagedList}}
+    {{#showSegment ../pagedData.currentPage ../pagedData.totalPage pageNo 5}}
+    <li><a href="{{url}}" class="{{#ifCond ../../pagedData.currentPage '==' pageNo}}current{{/ifCond}}" alt="{{title}}">{{pageNo}}</a></li>
+    {{/showSegment}}
+    {{/each}}
+    {{#ifCond pagedData.currentPage '<' pagedData.totalPage}}
+    <li><a href="{{getNextUrl pagedData.pagedList pagedData.currentPage}}">下一页</a></li>
+    <li><a href="{{getLastUrl pagedData.pagedList}}">末页</a></li>
+    {{/ifCond}}
+  </ul>
+</div>
+{{/if}}	

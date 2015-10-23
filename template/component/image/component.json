@@ -1,0 +1,47 @@
+{
+    "author" : "cym",
+    "type": "image",
+    "version": "1.0.0",
+    "name": "图片",
+    "config": {
+        "title": "组件标题", 
+        "link": "http://www.link.com",  
+        "showMore": "true", 
+        "showPagination": "true", 
+        "totalSize": "1000", 
+        "pageSize": "50",  
+        "titleLength": "50", 
+        "sortOrder": "1", 
+        "dateFormat": "yy-MM-dd", 
+        "imageWidth": "240", 
+        "imageHeight": "240",
+        "playMode": "",  
+        "interval": "5", 
+        "day": "true", 
+        "week": "true",
+        "month": "true",
+        "halfYear": "true", 
+        "defaultList": "month", 
+        "hits": "true"
+    },
+    "data": [
+        {
+            "pageUrl": "http://www.17173.com",
+            "imgPath": "http://stimgcn2.s-msn.com/msnportal/fashion/2014/07/28/4bcdf16f-85de-436e-976c-eb5808fe7f19.jpg",
+            "title": "解读FF14不删档信息 请慎重购买",
+            "description":"<strong>解读FF14不删档信息 请慎重购买<\/strong>买39包和78元包有什么区别？小编为你解析1111"
+        },
+        {
+            "pageUrl": "http://www.17173.com",
+            "imgPath": "http://stimgcn2.s-msn.com/msnportal/fashion/2014/07/28/8225c985-2168-4401-99bb-46c5b5231ddd.jpg",
+            "title": "解读FF14不删档信息 请慎重购买",
+            "description":"<strong>解读FF14不删档信息 请慎重购买<\/strong>买39包和78元包有什么区别？小编为你解析1111222"
+        },
+        {
+            "pageUrl": "http://www.17173.com",
+            "imgPath": "http://stimgcn1.s-msn.com/msnportal/fashion/2014/06/25/f99d0e24-3cfe-410b-9b1a-c5a6ed35f59c.jpg",
+            "title": "解读FF14不删档信息 请慎重购买",
+            "description":"<strong>解读FF14不删档信息 请慎重购买<\/strong>买39包和78元包有什么区别？小编为你解析11113333"
+        }
+    ]
+}

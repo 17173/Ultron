@@ -1,0 +1,16 @@
+<style type="text/css">
+.app-rss { position:absolute; right:150px; line-height:31px; height:30px; top:0; overflow:hidden;*zoom:1;}
+.app-rss .ico-app { float:left; display:inline-block; width:9px; height:13px; overflow:hidden; background:url(http://ue1.17173.itc.cn/images/app/index/2013/ico-phone.png); background-position:-40px 0; margin:9px 5px 0 0;_margin-top:7px }
+.app17173-code{ margin:0 auto; padding:15px; width:378px;border: 1px solid #ddd; height:120px;}
+.app17173-code-l{ float: left;width: 250px;color: #333333;font-size: 14px; line-height:24px;font-family: Microsoft Yahei; text-align: left; }
+.app17173-code-l a{ color: #333333; }
+.app17173-code-l span{ color:#0055aa; }
+.app17173-code-r{ float:right; width:79px; margin-top:10px;}
+</style>
+<script type="text/javascript">
+	var article = {};
+	article.infoChannel = "{{channelCode}}";
+	article.infoId = "{{id}}";
+	article.infoClass = "{{contentType}}";
+	article.infoWholeId = "{{contentKey}}";
+</script>

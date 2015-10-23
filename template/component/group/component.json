@@ -1,0 +1,9 @@
+{
+    "author": "yeoman",
+    "type": "group",
+    "version": "1.0.0",
+    "name": "group",
+    "config": {
+        },
+    "data": []
+}   

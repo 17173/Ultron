@@ -1,0 +1,44 @@
+{
+    "author": "lzz",
+    "type": "gallery",
+    "version": "1.0.0",
+    "name": "组图",
+    "config": {
+        "title": "组件标题", 
+        "link": "http://www.link.com",  
+        "showMore": "true", 
+        "showPagination": "true", 
+        "totalSize": "1000", 
+        "pageSize": "50",  
+        "titleLength": "50", 
+        "sortOrder": "1", 
+        "dateFormat": "yy-MM-dd", 
+        "imageWidth": "120", 
+        "imageHeight": "120",
+        "playMode": "1",  
+        "interval": "5", 
+        "day": "true", 
+        "week": "true",
+        "month": "true",
+        "halfYear": "true", 
+        "defaultList": "month", 
+        "hits": "true"
+    },
+    "data": {
+        "title" : "女星时尚造型testtesttest1",  
+        "imgPath" : "http://stimgcn4.s-msn.com/msnportal/fashion/2014/06/25/d5f487f2-56f3-45ca-b46e-f44e091a91f1.jpg", 
+        "imgTitle" : "女星时尚造型testtesttest1", 
+        "tags" : "明星 时尚",  
+    
+        "children" : [
+            {
+                "description" : "哈哈哈测试1", 
+                "imgUrl" : "http://stimgcn4.s-msn.com/msnportal/fashion/2014/06/25/d5f487f2-56f3-45ca-b46e-f44e091a91f1.jpg" 
+            },
+            {
+               "description" : "哈哈哈测试2", 
+                "imgUrl" : "http://stimgcn3.s-msn.com/msnportal/fashion/2014/06/25/14e69bc0-278d-408d-94a6-c2d2ff73df02.jpg" 
+            }
+        ]
+    }
+}   
