@@ -19,18 +19,30 @@
   text-transform: uppercase;
   color: #999;
 }
-
+.selected-file .fa {
+  font-size: 12px;
+}
+.refresh-file {
+  margin-right: 8px;
+}
 </style>
 <template>
-  <div class="explore"><span class="text-uppercase">explore</span> <span class="pull-right"><i class="fa fa-files-o" v-on="click: openFiles"></i> </span></div>
+  <div class="explore">
+    <span class="text-uppercase">explore</span> 
+    <span class="pull-right"><i class="fa fa-files-o" v-on="click: openFiles"></i> </span>
+    <span class="pull-right refresh-file" v-show="open"><i class="fa fa-refresh" v-on="click: updateFiles"></i></span>
+  </div>
   <div class="working-files">
     <h3 class="sidebar-title">open files</h3>
+    <ul class="list-unstyled selected-file" v-repeat="selectedFile in selectedFiles">
+      <li><i class="fa fa-close"></i> {{selectedFile.name}}</li>
+    </ul>
   </div>
 
   <div class="project-files">
     <h3 class="sidebar-title">folders</h3>
     <ul class="tree">
-      <tree model="{{treeData}}" on-file="{{onTreeFile}}"></tree>
+      <tree model="{{@ treeData}}"></tree>
     </ul>
   </div>
   <!-- <div class="no-files" v-if="!open">
@@ -48,71 +60,64 @@
   import tree from '../components/tree.vue';
   
   module.exports = {
-    props: ['onCurrentFile']，
     data() {
       return {
+        rootPath: '',
         projectName: '',
         treeData: {},
+        selectedFiles: [],
         open: false
       }
     },
 
     ready() {
       var self = this;
-      ipc.on('get-files', function(projectName, files) {
+      ipc.on('getFiles', function(projectName, files, rootPath) {
         self.$set('projectName', projectName);
+        self.$set('rootPath', rootPath);
         self.$set('open', true);
         self.$set('treeData', {
           name: projectName,
-          children: self.parseFiles(files)
+          children: files
         });
+
+        self.$dispatch('getRootPath', rootPath);
       });
 
     },
+
+    created() {
+      var self = this;
+      this.$on('selectNode', function(filePath, fileName) {
+        var exist = false;
+        var files = self.$get('selectedFiles');
+
+        files.forEach(function(item) {
+          if (item.fullPath === filePath) {
+            exist = true;
+            return false;
+          }
+        });
+
+        if (!exist) {
+          files.push({
+            name: fileName,
+            fullPath: filePath
+          });
+          self.$set('selectedFiles', files);
+        }
+      });
+    },
+
     replace: true,
 
     methods: {
-      onTreeFile(content) {
-        // 向上传递
-        this.onCurrentFile(content);
+      updateFiles() {
+        ipc.send('updateFiles', this.rootPath);
       },
-      parseFiles(files) {
-        var self = this;
-        var fileObject = {};
-        var result = [];
-        files.forEach(function(file) {
-          var fullPath = file.fullPath.split(/[\/\\]/);
-          var fileName = file.name;
-          var rootIndex = fullPath.indexOf(fileName);
-          var parentPath = fullPath[rootIndex - 1];
-
-          if (parentPath === self.$get('projectName')) {
-            result.push({
-              directory: file.directory,
-              children: [],
-              fullPath: file.fullPath,
-              name: fileName
-            });
-          } else {
-            result.forEach(function(parentFile, index, array) {
-              if (parentPath === parentFile.name) {
-                parentFile.children.push({
-                  directory: file.directory,
-                  children: [],
-                  fullPath: file.fullPath,
-                  name: fileName
-                });
-                return false;
-              }
-            });
-          }
-          
-        });
-
-        return result;
-      },
+      
       openFiles() {
-        ipc.send('open-dialog');
+        ipc.send('openDialog');
       },
       dropHandle(evt) {
         evt.stopPropagation();
@@ -122,7 +127,6 @@
 
         if (files.length) {
           files = files[0];
-          console.log(files.path, files);
           this.projectName = files.name;
           this.open = true;
         }

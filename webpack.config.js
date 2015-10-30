@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: './app',
     publicPath: '/app/',
-    filename: 'build.js'
+    filename: 'app.js'
   },
   target: 'atom',
 

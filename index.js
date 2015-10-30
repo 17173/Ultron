@@ -4,11 +4,11 @@ var app = require('app');
 var ipc = require('ipc');
 var dialog = require('dialog');
 var BrowserWindow = require('browser-window');
-var fs = require('fs');
 var path = require('path');
-var walkTree = require('walk-folder-tree');
 
 var file = require('./lib/file');
+var util = require('./lib/util');
+var ultron = require('./lib/ultron');
 
 require('crash-reporter').start();
 
@@ -33,17 +33,59 @@ app.on('ready', function() {
 
   mainWindow.openDevTools();
 
-  ipc.on('open-dialog', function(event, arg) {
+  // 打开文件浏览框
+  ipc.on('openDialog', function(event) {
     var filePath = dialog.showOpenDialog({ properties: [ 'openFile', 'openDirectory', 'multiSelections' ]})[0];
-
-    walkTree(filePath, {return: true}).then(function(files) {
-      event.sender.send('get-files', path.basename(filePath), files);
-    });
+    
+    loadFiles(event, filePath);
   });
 
-  ipc.on('read-file', function(event, filePath) {
-    console.log(filePath);
+  // 更新文件
+  ipc.on('updateFiles', function(event, filePath) {
+    loadFiles(event, filePath);
+  });
+
+  // 读文件
+  ipc.on('readFile', function(event, filePath) {
     event.returnValue = file.read(filePath);
   });
 
+  // 写文件
+  ipc.on('writeFile', function(event, filePath, content) {
+    file.write(filePath, content);
+  });
+
+  // 合并文件
+  ipc.on('mergeFiles', function(event, filePath) {
+    ultron.merge(filePath, function() {
+      loadFiles(event, filePath);
+    });
+    
+  });
+
+  // 生产处理过的文件
+  // TODO 能同步新增或删除的文件
+  ipc.on('generateFiles', function(event, filePath) {
+    ultron.generate(path.join(filePath, 'merge'), function() {
+      loadFiles(event, filePath);
+    });
+  });
+
+  // 压缩处理过的文件
+  ipc.on('compressFiles', function(event, filePath) {
+    ultron.compress(path.join(filePath, 'merge', 'out'), function() {
+      loadFiles(event, filePath);
+    });
+  });
+
 });
+
+// 载入文件
+function loadFiles(event, filePath) {
+  var files = util.dirToTree(filePath);
+
+  if (!files) {
+    return false;
+  }
+  event.sender.send('getFiles', path.basename(filePath), files, filePath);
+}

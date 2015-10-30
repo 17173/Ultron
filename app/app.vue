@@ -80,7 +80,7 @@ body {
   }
 }
 .main .page-header {
-  margin-top: 0;
+  margin: 0;
 }
 
 
@@ -105,14 +105,16 @@ body {
 
 </style>
 <template>
-  <header-view></header-view>
+  <header-view root-path="{{rootPath}}"></header-view>
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-4 col-md-3 sidebar">
-        <sidebar-view on-current-file＝"{{onLoadFile}}"></sidebar-view>
+        <sidebar-view></sidebar-view>
       </div>
       <div class="col-sm-8 col-sm-offset-4 col-md-10 col-md-offset-3 main">
-        <codemirror model="{{@ code}}"></codemirror>
+        <div class="page-header">{{fileName}}</div>
+        <textarea id="code"></textarea>
+        <!-- <codemirror model="{{@ code}}"></codemirror> -->
       </div>
     </div>
   </div>
@@ -120,26 +122,55 @@ body {
 <script>
 import headerView from './views/header.vue'
 import sidebarView from './views/sidebar.vue'
-import codemirror from './components/codemirror'
+import ipc from 'ipc'
 
 export default {
   data () {
     return {
-      
+      filePath: '',
+      fileName: 'undefined-1',
       code: ''
     }
   },
   ready() {
     var self = this;
+
+    this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+      lineNumbers: true
+    });
+    this.editor.on('change', function() {
+      self.$set('code', self.editor.getValue());
+    });
     
   },
+  created() {
+    var self = this;
+
+    this.$on('getCode', function(content, name, filePath) {
+      //self.$set('code', content);
+      self.$set('fileName', name);
+      self.$set('filePath', filePath);
+      self.editor.setValue(content);
+    });
+
+    this.$on('getRootPath', function(rootPath) {
+      self.$set('rootPath', rootPath);
+    });
+
+    this.$watch('code', function(newVal) {
+      if (this.filePath) {
+        ipc.send('writeFile', self.filePath, newVal);
+      }
+      
+    });
+  },
+
   methods: {
-    onLoadFile(content) {
-      this.$set('code', content);
-    }
+    
+  },
+  directives: {
   },
   components: {
-    codemirror,
     headerView,
     sidebarView
   }
