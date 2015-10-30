@@ -21,9 +21,8 @@ module.exports = {
         })
       }
     ]
-    //exclude: ['dialog']
   }
-}
+};
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = [

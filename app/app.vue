@@ -114,13 +114,14 @@ body {
       <div class="col-sm-8 col-sm-offset-4 col-md-10 col-md-offset-3 main">
         <div class="page-header">{{fileName}}</div>
         <textarea id="code"></textarea>
-        <!-- <codemirror model="{{@ code}}"></codemirror> -->
       </div>
     </div>
   </div>
+  <footer-view code-position="{{codePosition}}"></footer-view>
 </template>
 <script>
 import headerView from './views/header.vue'
+import footerView from './views/footer.vue'
 import sidebarView from './views/sidebar.vue'
 import ipc from 'ipc'
 
@@ -129,25 +130,62 @@ export default {
     return {
       filePath: '',
       fileName: 'undefined-1',
-      code: ''
+      code: '',
+      codePosition: {
+        line: 1,
+        ch: 1
+      }
     }
   },
   ready() {
     var self = this;
 
     this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-      lineNumbers: true
+      mode: {
+        name: 'htmlmixed',
+        scriptTypes: [{
+          matches: /\/x-handlebars-template|\/x-mustache/i,
+          mode: null
+        }]
+      },
+      lineNumbers: true,
+      tabSize: 2,
+      //autofocus: true,
+      lineWrapping: true,
+      foldGutter: true,
+      gutters: ['CodeMirror-lint-markers','CodeMirror-focused', 'CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+      styleActiveLine: true,
+      matchBrackets: true,
+      lint: false,
+      autoCloseBrackets: true,
+      highlightSelectionMatches: {
+        showToken: /\w/
+      },
+      matchTags: {
+        bothTags: true
+      },
+      //显示行末尾多余的空白
+      showTrailingSpace: true,
+      scrollbarStyle: 'overlay'
     });
     this.editor.on('change', function() {
       self.$set('code', self.editor.getValue());
     });
+    this.editor.on('cursorActivity', function(instance) {
+      var cursor = instance.getCursor();
+      var codePosition = {
+        line: cursor.line + 1,
+        ch: cursor.ch + 1
+      };
+
+      self.$set('codePosition', codePosition);
+    }); 
     
   },
   created() {
     var self = this;
 
     this.$on('getCode', function(content, name, filePath) {
-      //self.$set('code', content);
       self.$set('fileName', name);
       self.$set('filePath', filePath);
       self.editor.setValue(content);
@@ -172,7 +210,8 @@ export default {
   },
   components: {
     headerView,
-    sidebarView
+    sidebarView,
+    footerView
   }
 }
 </script>
