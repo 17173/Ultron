@@ -32,12 +32,12 @@
     <span class="pull-right"><i class="fa fa-files-o" v-on="click: openFiles"></i> </span>
     <span class="pull-right refresh-file" v-show="open"><i class="fa fa-refresh" v-on="click: updateFiles"></i></span>
   </div>
-  <div class="working-files">
+  <!-- <div class="working-files">
     <h3 class="sidebar-title">open files</h3>
     <ul class="list-unstyled selected-file" v-repeat="selectedFile in selectedFiles">
       <li><i class="fa fa-close"></i> {{selectedFile.name}}</li>
     </ul>
-  </div>
+  </div> -->
 
   <div class="project-files">
     <h3 class="sidebar-title">folders</h3>

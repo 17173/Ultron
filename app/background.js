@@ -4,14 +4,19 @@ var app = require('app');
 var ipc = require('ipc');
 var dialog = require('dialog');
 var BrowserWindow = require('browser-window');
+var globalShortcut = require('global-shortcut');
 var path = require('path');
+var updater = require('electron-updater');
 
 var file = require('./lib/file');
 var util = require('./lib/util');
 var ultron = require('./lib/ultron');
 
 require('crash-reporter').start();
-
+/*require('electron-debug')({
+    showDevTools: true
+});
+*/
 var mainWindow = null;
 
 app.on('window-all-closed', function() {
@@ -22,16 +27,26 @@ app.on('window-all-closed', function() {
 
 
 app.on('ready', function() {
-  mainWindow = new BrowserWindow({ width: 1024, height: 728 });
+  //updater.on('ready', function() {
+    mainWindow = new BrowserWindow({ width: 1024, height: 728 });
 
-  mainWindow.loadUrl('file://' + __dirname + '/main.html');
-  //mainWindow.loadUrl('http://localhost:8080/main.html');
+    //mainWindow.loadUrl('file://' + __dirname + '/main.html');
+    mainWindow.loadUrl('http://localhost:8080/app/main.html');
 
-  mainWindow.on('closed', function() {
-    mainWindow = null;
+    mainWindow.on('closed', function() {
+      mainWindow = null;
+    });
+
+    mainWindow.openDevTools();
+  //});
+
+  updater.on('updateRequired', function() {
+    app.quit();
   });
 
-  mainWindow.openDevTools();
+  updater.on('updateAvailable', function() {
+    mainWindow.webContents.send('update-available');
+  });
 
   // 打开文件浏览框
   ipc.on('openDialog', function(event) {
@@ -78,6 +93,10 @@ app.on('ready', function() {
     ultron.compress(curPath, function() {
       loadFiles(event, filePath);
     });
+  });
+
+  globalShortcut.register('ctrl+o', function() {
+    console.log('ctrl+o');
   });
 
 });

@@ -12,11 +12,11 @@
   "dependencies": {
     "cheerio": "^0.19.0",
     "colors": "^1.1.2",
+    "electron-plugins": "0.0.4",
     "iconv-lite": "^0.4.13",
     "ncp": "^2.0.0",
     "node-native-zip": "^1.1.0",
     "rimraf": "^2.4.3",
     "walk": "^2.3.9"
   }
-
 }

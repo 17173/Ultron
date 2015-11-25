@@ -11,7 +11,8 @@ npm run dev
 再打开一个控制台
 
 ```
-electron app
+cd app
+electron .
 ```
 
 ## 打包

@@ -8,6 +8,7 @@ var path = require('path'),
     file = require('./file'),
     ncp = require('ncp').ncp,
     thisPath = '.'; //path.dirname(path.dirname(process.argv[1]));
+
 module.exports = {
   init: function(data,fileName,fileGroupPath,root, execType) {
     this.data = data;

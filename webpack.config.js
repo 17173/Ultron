@@ -19,6 +19,10 @@ module.exports = {
           // inside *.vue files.
           js: 'babel?optional[]=runtime&loose=all'
         })
+      }, {
+        test: /\.js?$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel?optional[]=runtime&stage=0'
       }
     ]
   }

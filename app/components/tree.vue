@@ -89,7 +89,7 @@ module.exports = {
       
     },
     selectNode(filePath, fileName) {
-      this.$dispatch('selectNode', filePath, fileName);
+      //this.$dispatch('selectNode', filePath, fileName);
     },
     removeActive() {
       var i = 0;

@@ -73,6 +73,7 @@ body {
  */
 
 .main {
+  padding-bottom: 30px;
 }
 @media (min-width: 768px) {
   .main {
@@ -124,7 +125,20 @@ import headerView from './views/header.vue'
 import footerView from './views/footer.vue'
 import sidebarView from './views/sidebar.vue'
 import ipc from 'ipc'
+/*import plugins from 'electron-plugins'
 
+document.addEventListener('DOMContentLoaded', function () {
+    var context = { document: document }
+    plugins.load(context, function (err, loaded) {
+        if(err) return console.error(err)
+        console.log('Plugins loaded successfully.')
+    })
+})
+
+ipc.on('update-available', function () {
+    console.log('there is an update available for download')
+})
+*/
 export default {
   data () {
     return {
@@ -148,6 +162,7 @@ export default {
           mode: null
         }]
       },
+      keyMap: 'sublime',
       lineNumbers: true,
       tabSize: 2,
       //autofocus: true,
@@ -158,6 +173,7 @@ export default {
       matchBrackets: true,
       lint: false,
       autoCloseBrackets: true,
+      showCursorWhenSelecting: true,
       highlightSelectionMatches: {
         showToken: /\w/
       },
