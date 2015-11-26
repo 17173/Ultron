@@ -125,6 +125,7 @@ import headerView from './views/header.vue'
 import footerView from './views/footer.vue'
 import sidebarView from './views/sidebar.vue'
 import ipc from 'ipc'
+
 /*import plugins from 'electron-plugins'
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -173,6 +174,7 @@ export default {
       matchBrackets: true,
       lint: false,
       autoCloseBrackets: true,
+      autoCloseTags: true,
       showCursorWhenSelecting: true,
       highlightSelectionMatches: {
         showToken: /\w/

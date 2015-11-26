@@ -20,6 +20,7 @@
           <li v-show="rootPath"><a href="javascript:;" v-on="click: merge"><i class="fa fa-object-group"></i> 合并</a></li>
           <li v-show="rootPath"><a href="javascript:;" v-on="click: generate"><i class="fa fa-object-ungroup"></i> 生成</a></li>
           <li v-show="rootPath"><a href="javascript:;" v-on="click: compress"><i class="fa fa-file-zip-o"></i> 压缩</a></li>
+          <li v-show="previewUrl"><a href="{{previewUrl}}" target="_blank"><i class="fa fa-eye"></i> 预览</a></li>
           <li><a href="javascript:;" v-on="click:showRight = true"><i class="fa fa-question"></i> 帮助</a></li>
         </ul>
 
@@ -84,12 +85,20 @@
   import ipc from 'ipc'
   import asideModal from '../components/aside.vue'
 
+  const PREVIEW_FILE = '页面预览.txt';
+
   export default {
     props: ['rootPath'],
     data: function() {
       return {
+        rootPath: '',
         showRight: false
       };
+    },
+    created() {
+      this.$watch('rootPath', function(newVal) {
+        this.$set('previewUrl', ipc.sendSync('readFile', newVal + '/' + PREVIEW_FILE));
+      });
     },
     methods: {
       merge() {

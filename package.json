@@ -8,12 +8,12 @@
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
     "build": "npm run clean && npm run build:vue && npm run build:osx && npm run build:win",
+    "build:vue": "NODE_ENV=production webpack --progress --hide-modules",
     "build:osx": "npm run clean:osx && electron-packager ./app \"Ultron\" --out=dist/osx --platform=darwin --arch=x64 --version=0.34.1",
     "build:win": "npm run clean:win && electron-packager ./app \"Ultron\" --out=dist/win --platform=win32 --arch=ia32 --version=0.34.1",
     "pack": "npm run pack:osx && npm run pack:win",
     "pack:osx": "npm run build:osx && electron-builder \"dist/osx/Ultron-darwin-x64/Ultron.app\" --platform=osx --out=\"dist/osx\" --config=packager.json",
-    "pack:win": "npm run build:win && electron-builder \"dist/win/Ultron-win32\" --platform=win --out=\"dist/win\" --config=packager.json",
-    "build:vue": "NODE_ENV=production webpack --progress --hide-modules"
+    "pack:win": "npm run build:win && electron-builder \"dist/win/Ultron-win32\" --platform=win --out=\"dist/win\" --config=packager.json"
   },
   "homepage": "https://github.com/17173/ultron",
   "bugs": "https://github.com/17173/ultron/issues",
@@ -35,7 +35,6 @@
     "vue": "^0.12.16",
     "vue-html-loader": "^1.0.0",
     "vue-loader": "^4.0.8",
-    "vue-strap": "^0.1.2",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-dev-server": "^1.12.0",

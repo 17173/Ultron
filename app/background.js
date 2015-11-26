@@ -4,7 +4,6 @@ var app = require('app');
 var ipc = require('ipc');
 var dialog = require('dialog');
 var BrowserWindow = require('browser-window');
-var globalShortcut = require('global-shortcut');
 var path = require('path');
 var updater = require('electron-updater');
 
@@ -25,17 +24,18 @@ app.on('window-all-closed', function() {
   }
 });
 
-
 app.on('ready', function() {
   //updater.on('ready', function() {
     mainWindow = new BrowserWindow({ width: 1024, height: 728 });
 
-    //mainWindow.loadUrl('file://' + __dirname + '/main.html');
-    mainWindow.loadUrl('http://localhost:8080/app/main.html');
+    mainWindow.loadUrl('file://' + __dirname + '/main.html');
+    //mainWindow.loadUrl('http://localhost:8080/app/main.html');
 
     mainWindow.on('closed', function() {
       mainWindow = null;
     });
+
+    require('./menu');
 
     mainWindow.openDevTools();
   //});
@@ -89,14 +89,14 @@ app.on('ready', function() {
 
   // 压缩处理过的文件
   ipc.on('compressFiles', function(event, filePath) {
-    var curPath = filePath.indexOf('merge') > -1 ? path.join(filePath, 'out') : path.join('filePath', 'merge', 'out');
+    var curPath = filePath.indexOf('merge') > -1 ? path.join(filePath, 'out') : path.join(filePath, 'merge', 'out');
+    if (!file.exists(curPath)) {
+      util.showMessageBox('请先合并，再生产，后再压缩！');
+      return;
+    }
     ultron.compress(curPath, function() {
       loadFiles(event, filePath);
     });
-  });
-
-  globalShortcut.register('ctrl+o', function() {
-    console.log('ctrl+o');
   });
 
 });

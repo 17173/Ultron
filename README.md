@@ -18,7 +18,6 @@ electron .
 ## 打包
 
 ```
-npm run build:vue
 npm run build
 npm run pack
 ```
