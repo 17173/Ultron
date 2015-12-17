@@ -13,7 +13,7 @@
     "build:win": "npm run clean:win && electron-packager ./app \"Ultron\" --out=dist/win --platform=win32 --arch=ia32 --version=0.34.1",
     "pack": "npm run pack:osx && npm run pack:win",
     "pack:osx": "npm run build:osx && electron-builder \"dist/osx/Ultron-darwin-x64/Ultron.app\" --platform=osx --out=\"dist/osx\" --config=packager.json",
-    "pack:win": "npm run build:win && electron-builder \"dist/win/Ultron-win32\" --platform=win --out=\"dist/win\" --config=packager.json"
+    "pack:win": "npm run build:win && electron-builder \"dist/win/Ultron-win32-ia32\" --platform=win --out=\"dist/win\" --config=packager.json"
   },
   "homepage": "https://github.com/17173/ultron",
   "bugs": "https://github.com/17173/ultron/issues",

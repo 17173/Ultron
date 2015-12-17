@@ -5,7 +5,6 @@ var ipc = require('ipc');
 var dialog = require('dialog');
 var BrowserWindow = require('browser-window');
 var path = require('path');
-var updater = require('electron-updater');
 
 var file = require('./lib/file');
 var util = require('./lib/util');
@@ -25,28 +24,18 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-  //updater.on('ready', function() {
-    mainWindow = new BrowserWindow({ width: 1024, height: 728 });
+  mainWindow = new BrowserWindow({ width: 1024, height: 728 });
 
-    mainWindow.loadUrl('file://' + __dirname + '/main.html');
-    //mainWindow.loadUrl('http://localhost:8080/app/main.html');
+  mainWindow.loadUrl('file://' + __dirname + '/main.html');
+  //mainWindow.loadUrl('http://localhost:8080/app/main.html');
 
-    mainWindow.on('closed', function() {
-      mainWindow = null;
-    });
-
-    require('./menu');
-
-    mainWindow.openDevTools();
-  //});
-
-  updater.on('updateRequired', function() {
-    app.quit();
+  mainWindow.on('closed', function() {
+    mainWindow = null;
   });
 
-  updater.on('updateAvailable', function() {
-    mainWindow.webContents.send('update-available');
-  });
+  require('./menu');
+
+  //mainWindow.openDevTools();
 
   // 打开文件浏览框
   ipc.on('openDialog', function(event) {
@@ -62,7 +51,11 @@ app.on('ready', function() {
 
   // 读文件
   ipc.on('readFile', function(event, filePath) {
-    event.returnValue = file.read(filePath);
+    var value = null;
+    if (file.exists(filePath)) {
+      value = file.read(filePath);
+    }
+    event.returnValue = value;
   });
 
   // 写文件
