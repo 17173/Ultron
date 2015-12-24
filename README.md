@@ -1,6 +1,15 @@
 # Ultron
 奥创（Ultron）CMS3.0  工具
 
+## 安装
+
+electron-built >=0.36.0
+electron-builder >=2.4.0
+
+```
+npm install electron-built && electron-builder -g
+```
+
 ## 调试
 
 ```
