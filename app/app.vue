@@ -106,7 +106,7 @@ body {
 
 </style>
 <template>
-  <header-view root-path="{{rootPath}}"></header-view>
+  <header-view :root-path="rootPath"></header-view>
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-4 col-md-3 sidebar">
@@ -118,34 +118,38 @@ body {
       </div>
     </div>
   </div>
-  <footer-view code-position="{{codePosition}}"></footer-view>
+  <footer-view :code-position="codePosition"></footer-view>
+  <file-option :show.sync="showFileOption" :file-name.sync="curFileName"></file-option>
+  <modal :show.sync="showModal" title="提示信息" content="不能删除 merge 目录！"></modal>
 </template>
 <script>
+import fileOption from './components/option.vue';
+import modal from './components/modal.vue';
+
 import headerView from './views/header.vue'
 import footerView from './views/footer.vue'
 import sidebarView from './views/sidebar.vue'
-import ipc from 'ipc'
 
-/*import plugins from 'electron-plugins'
+const ipc = require('electron').ipcRenderer;
+const remote = require('electron').remote;
+const Menu = remote.Menu;
+const MenuItem = remote.MenuItem;
 
-document.addEventListener('DOMContentLoaded', function () {
-    var context = { document: document }
-    plugins.load(context, function (err, loaded) {
-        if(err) return console.error(err)
-        console.log('Plugins loaded successfully.')
-    })
-})
+const CLS_ACTIVE = 'active';
+const CLS_HOVER = 'hover';
+const MERGE_PATH = 'merge';
 
-ipc.on('update-available', function () {
-    console.log('there is an update available for download')
-})
-*/
+
 export default {
   data () {
     return {
       filePath: '',
+      rootPath: '',
       fileName: 'undefined-1',
       code: '',
+      showFileOption: false,
+      showModal: false,
+      curFileName: '',
       codePosition: {
         line: 1,
         ch: 1
@@ -220,13 +224,33 @@ export default {
       
     });
   },
+  events: {
+    removeTreeNode(model, vm) {
+      if (MERGE_PATH === model.name) {
+        this.$set('showModal', true);
+        return false;
+      }
+      ipc.send('removeDir', model.fullPath);
+      vm.$el.remove();
+    },
 
+    renameTreeNode(model, vm) {
+      this.$set('curFileName', model.name);
+      this.$set('showFileOption', true);
+    },
+
+    saveFileName() {
+      console.log(this.curFileName);
+    }
+  },
   methods: {
     
   },
   directives: {
   },
   components: {
+    modal,
+    fileOption,
     headerView,
     sidebarView,
     footerView

@@ -29,8 +29,8 @@
 <template>
   <div class="explore">
     <span class="text-uppercase">explore</span> 
-    <span class="pull-right"><i class="fa fa-files-o" v-on="click: openFiles"></i> </span>
-    <span class="pull-right refresh-file" v-show="open"><i class="fa fa-refresh" v-on="click: updateFiles"></i></span>
+    <span class="pull-right"><i class="fa fa-files-o" @click="openFiles"></i> </span>
+    <span class="pull-right refresh-file" v-show="open"><i class="fa fa-refresh" @click="updateFiles"></i></span>
   </div>
   <!-- <div class="working-files">
     <h3 class="sidebar-title">open files</h3>
@@ -42,9 +42,10 @@
   <div class="project-files">
     <h3 class="sidebar-title">folders</h3>
     <ul class="tree">
-      <tree model="{{@ treeData}}"></tree>
+      <tree :model="treeData"></tree>
     </ul>
   </div>
+
   <!-- <div class="no-files" v-if="!open">
     <div class="dnd-file" v-on="
       dragover: dragoverHandle,
@@ -55,9 +56,9 @@
   </div> -->
 </template>
 <script>
-  import ipc from 'ipc';
-  
   import tree from '../components/tree.vue';
+
+  const ipc = require('electron').ipcRenderer;
   
   module.exports = {
     data() {
@@ -72,7 +73,7 @@
 
     ready() {
       var self = this;
-      ipc.on('getFiles', function(projectName, files, rootPath) {
+      ipc.on('getFiles', function(event, projectName, files, rootPath) {
         self.$set('projectName', projectName);
         self.$set('rootPath', rootPath);
         self.$set('open', true);
@@ -109,8 +110,6 @@
       });
     },
 
-    replace: true,
-
     methods: {
       updateFiles() {
         ipc.send('updateFiles', this.rootPath);
@@ -135,7 +134,8 @@
         evt.stopPropagation();
         evt.preventDefault();
         evt.dataTransfer.dropEffect = 'copy';
-      }
+      },
+
     },
 
     components: {

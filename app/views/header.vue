@@ -2,6 +2,12 @@
   .navbar {
     margin: 0;
   }
+  .navbar-brand .electron-icon {
+    height: 20px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.4em;
+  }
 </style>
 <template>
   <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -13,21 +19,20 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">奥创</a>
+        <a class="navbar-brand" href="#"><img class="electron-icon" :src="logoUrl">奥创</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li v-show="rootPath"><a href="javascript:;" v-on="click: merge"><i class="fa fa-object-group"></i> 合并</a></li>
-          <li v-show="rootPath"><a href="javascript:;" v-on="click: generate"><i class="fa fa-object-ungroup"></i> 生成</a></li>
-          <li v-show="rootPath"><a href="javascript:;" v-on="click: compress"><i class="fa fa-file-zip-o"></i> 压缩</a></li>
-          <li v-show="previewUrl"><a href="{{previewUrl}}" target="_blank"><i class="fa fa-eye"></i> 预览</a></li>
-          <li><a href="javascript:;" v-on="click:showRight = true"><i class="fa fa-question"></i> 帮助</a></li>
+          <li v-show="rootPath"><a href="javascript:;" @click="generate"><i class="fa fa-object-ungroup"></i> 生成</a></li>
+          <li v-show="rootPath"><a href="javascript:;" @click="compress"><i class="fa fa-file-zip-o"></i> 压缩</a></li>
+          <li v-show="previewUrl"><a :href="previewUrl" target="_blank"><i class="fa fa-eye"></i> 预览</a></li>
+          <li><a href="javascript:;" @click="showRight = true"><i class="fa fa-question"></i> 帮助</a></li>
         </ul>
 
       </div>
     </div>
   </nav>
-  <aside-modal show="{{@showRight}}" placement="right" header="帮助" width="350">
+  <aside-modal :show.sync="showRight" placement="right" header="帮助">
     <!-- <h4>快捷键</h4>
     <table class="table table-border">
       <tr>
@@ -82,8 +87,9 @@
   </aside-modal>
 </template>
 <script>
-  import ipc from 'ipc'
   import asideModal from '../components/aside.vue'
+
+  const ipc = require('electron').ipcRenderer;
 
   const PREVIEW_FILE = '页面预览.txt';
 
@@ -91,10 +97,12 @@
     props: ['rootPath'],
     data: function() {
       return {
-        rootPath: '',
+        logoUrl: 'assets/img/electron-icon.svg',
+        previewUrl: '',
         showRight: false
       };
     },
+
     created() {
       this.$watch('rootPath', function(newVal) {
         this.$set('previewUrl', ipc.sendSync('readFile', newVal + '/' + PREVIEW_FILE));
