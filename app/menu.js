@@ -1,5 +1,12 @@
-var Menu = require('menu');
-var app = require('app');
+const electron = require('electron');
+
+const remote = electron.remote;
+const app = electron.app;
+const dialog = electron.dialog;
+const BrowserWindow = require('electron').BrowserWindow;
+
+const Menu = electron.Menu;
+
 var menu = new Menu();
 
 var template = [
@@ -47,7 +54,7 @@ var template = [
       {
         label: '刷新',
         accelerator: 'CmdOrCtrl+R',
-        click: function(item, focusedWindow) {
+        click(item, focusedWindow) {
           if (focusedWindow)
             focusedWindow.reload();
         }
@@ -60,7 +67,7 @@ var template = [
           else
             return 'F11';
         })(),
-        click: function(item, focusedWindow) {
+        click(item, focusedWindow) {
           if (focusedWindow)
             focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
         }
@@ -71,9 +78,9 @@ var template = [
           if (process.platform == 'darwin')
             return 'Alt+Command+I';
           else
-            return 'Ctrl+Shift+I';
+            return 'F12';
         })(),
-        click: function(item, focusedWindow) {
+        click(item, focusedWindow) {
           if (focusedWindow)
             focusedWindow.toggleDevTools();
         }
@@ -101,9 +108,27 @@ var template = [
     role: 'help',
     submenu: [
       {
-        label: '学习更多',
-        click: function() { require('shell').openExternal('http://electron.atom.io') }
-      },
+        label: '关于 Ultron',
+        click() { 
+          dialog.showMessageBox({
+            title: '关于',
+            type: 'info',
+            buttons: [],
+            message: '\r' + app.getName() + '\r版本 ' + app.getVersion() 
+          });
+        }
+      }, {
+        label: '反馈',
+        click() {
+          var win = new BrowserWindow({ width: 800, height: 600, show: false });
+          win.on('closed', function() {
+            win = null;
+          });
+
+          win.loadURL('https://github.com/17173/Ultron/issues');
+          win.show();
+        }
+      }
     ]
   },
 ];
@@ -149,7 +174,7 @@ if (process.platform == 'darwin') {
       {
         label: '退出',
         accelerator: 'Command+Q',
-        click: function() { app.quit(); }
+        click() { app.quit(); }
       },
     ]
   });

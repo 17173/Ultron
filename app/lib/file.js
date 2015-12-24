@@ -215,6 +215,25 @@ file.remove = function(filepath) {
 
 };
 
+// 删除目录
+file.rmdirSync = (filepath) => {
+
+  log.info('Deleting ' + filepath + '...');
+
+  if (!file.exists(filepath)) {
+    log.warn('Cannot delete nonexistent file.');
+    return false;
+  }
+
+  try {
+    // Actually delete. Or not.
+    rimraf.sync(filepath);
+    return true;
+  } catch(e) {
+    throw log.error('Unable to delete "' + filepath + '" file (' + e.message + ').');
+  }
+}
+
 // Is a given file path absolute?
 file.isPathAbsolute = function() {
   var filepath = path.join.apply(path, arguments);

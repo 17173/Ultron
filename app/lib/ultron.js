@@ -1,33 +1,35 @@
 #!/usr/bin/env node
 'use strict';
 
-var path = require('path'),
+const path = require('path'),
 	join = path.join,
 	fs = require('fs'),
 	Zip = require('node-native-zip'),
 	walk = require('walk');
 
-var file = require('./file'),
+const file = require('./file'),
 	transport = require('./transport'),
 	util = require('./util'),
 	log = require('./log');
 
-//updater.hasNewVersion();
+const OUT = 'out';
+const MERGE = 'merge';
 
 module.exports = {
 	// 生成已配置的组件和页面
 	generate:function(ROOT, callback){
-		var dest = 'out';
-
+		console.log('generate:' + ROOT);
+		var mergePath = join(ROOT, MERGE);
 		var walker = walk.walk(ROOT, {
 			followLinks: false,
-			filters: [dest]
+			filters: [OUT]
 		});
 
 		walker.on('file', function (root, fileStats, next) {
 			var filename = fileStats.name;
-			if (root == ROOT && !/^inc-.+\.shtml$/.test(filename) && /\.shtml$/.test(filename)) {
-				var groupPath = ROOT + '/' + dest + '/' + filename.substring(0,filename.indexOf('.shtml'));
+			console.log('cur generate:' + root);
+			if (root == mergePath && !/^inc-.+\.shtml$/.test(filename) && /\.shtml$/.test(filename)) {
+				var groupPath = ROOT + '/' + OUT + '/' + filename.substring(0,filename.indexOf('.shtml'));
 				file.mkdir(groupPath);
 				var content = file.read(path.join(root, filename));
 				content = transport.init(content,filename,groupPath,ROOT, '');
@@ -42,24 +44,22 @@ module.exports = {
 			});
 
 			callback();
-			util.showMessageBox('模板生成成功，请到目录' + dest + '下查看！');
+			util.showMessageBox('模板生成成功，请到目录' + OUT + '下查看！');
 			log.info('生成成功！');
 		});
 	},
 
 	// 合并本地 inc 文件
 	merge:function(ROOT, callback){
-		var dest = 'merge';
-
 		var walker = walk.walk(ROOT, {
 			followLinks: false,
-			filters: [dest]
+			filters: [MERGE]
 		});
 
 		walker.on('file', function (root, fileStats, next) {
 			var filename = fileStats.name;
 			if (root == ROOT && !/^inc-.+\.shtml$/.test(filename) && /\.shtml$/.test(filename)) {
-				var groupPath = ROOT + '/' + dest;
+				var groupPath = ROOT + '/' + MERGE;
 				file.mkdir(groupPath);
 				var content = file.read(path.join(root, filename));
 				content = transport.init(content,filename,groupPath,ROOT, 'merge');
@@ -74,7 +74,6 @@ module.exports = {
 			});
 
 			callback();
-			util.showMessageBox('模板合并成功，请到目录' + dest + '下查看！');
 			log.info('合并成功！');
 		});
 	},

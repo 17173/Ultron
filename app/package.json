@@ -3,7 +3,7 @@
   "productName": "Ultron",
   "identifier": "17173.com.ultron",
   "description": "CMS3.0 template tools",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "lynzz <lynzz168@gmail.com>",
   "main": "background.js",
   "config": {
@@ -12,7 +12,6 @@
   "dependencies": {
     "cheerio": "^0.19.0",
     "colors": "^1.1.2",
-    "electron-plugins": "0.0.4",
     "iconv-lite": "^0.4.13",
     "ncp": "^2.0.0",
     "node-native-zip": "^1.1.0",

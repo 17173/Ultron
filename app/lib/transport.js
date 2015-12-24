@@ -124,6 +124,7 @@ module.exports = {
         $(this).removeAttr('cms-node-type');
       }
       $(this).removeAttr('cms-data-type').removeAttr('cms-data-component-cid');
+      console.log(type);
       if(type != 'html') {
         componentIds[type] = componentIds[type] || 1;
         var content = $(plum).attr('cms-data-type',type).append($(this).clone());

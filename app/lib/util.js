@@ -6,7 +6,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var dialog = require('dialog');
+var dialog = require('electron').dialog;
 
 var join = path.join;
 
