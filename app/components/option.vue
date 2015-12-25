@@ -32,6 +32,11 @@
 <script>
 module.exports = {
   replace: true,
+  data() {
+    return {
+      oldFileName: ''
+    }
+  },
   props: {
     show: {
       type: Boolean,

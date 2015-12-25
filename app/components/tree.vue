@@ -51,9 +51,7 @@
       <span class="tree-node-name">{{model.name}}</span>
     </div>
     <ul class="tree-children" v-show="open" v-if="isFolder">
-      <tree v-for="model in model.children" :model="model">
-        
-      </tree>
+      <tree v-for="model in model.children" :model="model"></tree>
     </ul>
   </li>
 </template>
@@ -66,7 +64,6 @@ const MenuItem = remote.MenuItem;
 
 const CLS_ACTIVE = 'active';
 const CLS_HOVER = 'hover';
-const MERGE_PATH = 'merge';
 
 module.exports = {
   replace: true,

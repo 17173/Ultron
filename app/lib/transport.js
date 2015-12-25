@@ -112,6 +112,7 @@ module.exports = {
     var rowWrap = '<div class="row"></div>';
     var componentIds = {};
     var componentRepeat = {};
+
     $('[cms-data-type]').each(function(i,el){
       var type = $(this).attr('cms-data-type'),
           cid = $(this).attr('cms-data-component-cid'),
@@ -124,7 +125,6 @@ module.exports = {
         $(this).removeAttr('cms-node-type');
       }
       $(this).removeAttr('cms-data-type').removeAttr('cms-data-component-cid');
-      console.log(type);
       if(type != 'html') {
         componentIds[type] = componentIds[type] || 1;
         var content = $(plum).attr('cms-data-type',type).append($(this).clone());
@@ -136,6 +136,7 @@ module.exports = {
           componentRepeat[cid] = content;
         }
         var src = thisPath + '/template/component/' + type + '/',dst = self.fileGroupPath + '/' + type + '-' + (!!cid ? cid : componentIds[type]++) + '/';
+
         /** ncp为异步复制，所以回调的函数不能使用同步操作 **/
         ncp(src, dst, function (err) {
           if (err) {

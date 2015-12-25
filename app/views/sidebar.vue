@@ -63,22 +63,29 @@
   module.exports = {
     data() {
       return {
-        rootPath: '',
-        projectName: '',
         treeData: {},
         selectedFiles: [],
         open: false
       }
     },
 
+    computed: {
+      rootPath() {
+        return this.treeData.fullPath;
+      },
+
+      projectName() {
+        return this.treeData.name;
+      }
+    },
+
     ready() {
       var self = this;
       ipc.on('getFiles', function(event, projectName, files, rootPath) {
-        self.$set('projectName', projectName);
-        self.$set('rootPath', rootPath);
         self.$set('open', true);
         self.$set('treeData', {
           name: projectName,
+          fullPath: rootPath,
           children: files
         });
 

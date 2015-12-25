@@ -234,6 +234,10 @@ file.rmdirSync = (filepath) => {
   }
 }
 
+file.rename = (oldPath, newPath, callback) => {
+  fs.rename(oldPath, newPath, callback);
+}
+
 // Is a given file path absolute?
 file.isPathAbsolute = function() {
   var filepath = path.join.apply(path, arguments);

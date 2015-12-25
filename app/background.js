@@ -27,8 +27,8 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   mainWindow = new BrowserWindow({ width: 1024, height: 728 });
 
-  //mainWindow.loadURL('file://' + __dirname + '/main.html');
-  mainWindow.loadURL('http://localhost:8080/app/main.html');
+  mainWindow.loadURL('file://' + __dirname + '/main.html');
+  //mainWindow.loadURL('http://localhost:8080/app/main.html');
 
   mainWindow.on('closed', function() {
     mainWindow = null;
@@ -39,9 +39,9 @@ app.on('ready', function() {
   // 打开文件浏览框
   ipc.on('openDialog', function(event) {
     var filePath = dialog.showOpenDialog({ properties: [ 'openFile', 'openDirectory', 'multiSelections' ]});
-    var curPath = filePath[0];
+    var curPath = filePath && filePath[0];
     
-    if (filePath && curPath) {
+    if (curPath) {
       if (file.exists(join(curPath, MERGE_PATH))) {
         loadFiles(event, curPath);
       } else {
@@ -72,9 +72,9 @@ app.on('ready', function() {
   });
 
   // 合并文件
-  ipc.on('mergeFiles', function(event, filePath) {
-    ultron.merge(filePath, function() {
-      loadFiles(event, filePath);
+  ipc.on('mergeFiles', function(event, rootPath) {
+    ultron.merge(rootPath, function() {
+      loadFiles(event, rootPath);
     });
     
   });
@@ -84,24 +84,46 @@ app.on('ready', function() {
     file.rmdirSync(filePath);
   });
 
+  // 异步更改文件路径
+  ipc.on('renameFile', (event, oldPath, newFileName) => {
+    console.log(typeof callback);
+    let newPath = join(path.dirname(oldPath), newFileName);
+    file.rename(oldPath, newPath, function(err) {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      event.sender.send('renameFileSuccess', newPath);
+    });
+  });
+
+  // 计算路径，供 render process
+  ipc.on('computePath', (event, oldPath, newFileName) => {
+    event.returnValue = join(path.dirname(oldPath), newFileName);
+  })
+
+  ipc.on('joinPath', (event, filePath, fileName) => {
+    event.returnValue = join(filePath, fileName);
+  })
+
+
   // 生产处理过的文件
   // TODO 能同步新增或删除的文件
   ipc.on('generateFiles', function(event, rootPath) {
-    //var curPath = filePath.indexOf('merge') > -1 ? filePath : path.join(filePath, 'merge');
     ultron.generate(rootPath, function() {
       loadFiles(event, rootPath);
     });
   });
 
   // 压缩处理过的文件
-  ipc.on('compressFiles', function(event, filePath) {
-    var curPath = filePath.indexOf('merge') > -1 ? path.join(filePath, 'out') : path.join(filePath, 'merge', 'out');
+  ipc.on('compressFiles', function(event, rootPath) {
+    var curPath = path.join(rootPath, 'out');
     if (!file.exists(curPath)) {
       util.showMessageBox('请先生产，后再压缩！');
       return;
     }
     ultron.compress(curPath, function() {
-      loadFiles(event, filePath);
+      loadFiles(event, rootPath);
     });
   });
 

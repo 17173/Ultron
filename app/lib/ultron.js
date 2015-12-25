@@ -18,7 +18,6 @@ const MERGE = 'merge';
 module.exports = {
 	// 生成已配置的组件和页面
 	generate:function(ROOT, callback){
-		console.log('generate:' + ROOT);
 		var mergePath = join(ROOT, MERGE);
 		var walker = walk.walk(ROOT, {
 			followLinks: false,
@@ -27,7 +26,7 @@ module.exports = {
 
 		walker.on('file', function (root, fileStats, next) {
 			var filename = fileStats.name;
-			console.log('cur generate:' + root);
+
 			if (root == mergePath && !/^inc-.+\.shtml$/.test(filename) && /\.shtml$/.test(filename)) {
 				var groupPath = ROOT + '/' + OUT + '/' + filename.substring(0,filename.indexOf('.shtml'));
 				file.mkdir(groupPath);

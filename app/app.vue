@@ -106,8 +106,8 @@ body {
 
 </style>
 <template>
-  <header-view :root-path="rootPath"></header-view>
-  <div class="container-fluid">
+  <header-view :root-path="rootPath" @keyup.esc="showFileOption = false"></header-view>
+  <div class="container-fluid" @keyup.esc="showFileOption = false">
     <div class="row">
       <div class="col-sm-4 col-md-3 sidebar">
         <sidebar-view></sidebar-view>
@@ -135,10 +135,7 @@ const remote = require('electron').remote;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
 
-const CLS_ACTIVE = 'active';
-const CLS_HOVER = 'hover';
-const MERGE_PATH = 'merge';
-
+const MERGE = 'merge';
 
 export default {
   data () {
@@ -150,6 +147,8 @@ export default {
       showFileOption: false,
       showModal: false,
       curFileName: '',
+      curModel: null,
+      oldFileName: '',
       codePosition: {
         line: 1,
         ch: 1
@@ -223,10 +222,16 @@ export default {
       }
       
     });
+
+    ipc.on('renameFileSuccess', (event, newPath) => {
+      var model = this.$get('curModel');
+      model.fullPath = newPath;
+      self.updateTreeData(model);
+    })
   },
   events: {
     removeTreeNode(model, vm) {
-      if (MERGE_PATH === model.name) {
+      if (MERGE === model.name) {
         this.$set('showModal', true);
         return false;
       }
@@ -236,15 +241,29 @@ export default {
 
     renameTreeNode(model, vm) {
       this.$set('curFileName', model.name);
+      this.$set('curModel', model);
+      this.$set('oldFileName', model.name);
       this.$set('showFileOption', true);
     },
 
     saveFileName() {
-      console.log(this.curFileName);
+      var model = this.$get('curModel');
+
+      model.name = this.curFileName;
+      ipc.send('renameFile', model.fullPath, this.curFileName);
     }
   },
   methods: {
-    
+    // 更新树节点路径
+    updateTreeData(model) {
+      var self = this;
+      if (model.children.length) {
+        model.children.forEach(item => {
+          item.fullPath = ipc.sendSync('joinPath', model.fullPath, item.name);
+          self.updateTreeData(item);
+        })
+      }
+    }
   },
   directives: {
   },
