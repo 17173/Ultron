@@ -114,7 +114,7 @@ var template = [
             title: '关于',
             type: 'info',
             buttons: [],
-            message: '\r' + app.getName() + '\r版本 ' + app.getVersion() 
+            message: app.getName() + '\r版本 ' + app.getVersion() 
           });
         }
       }, {

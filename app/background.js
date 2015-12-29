@@ -6,6 +6,7 @@ const ipc = electron.ipcMain;
 const app = electron.app;
 const dialog = electron.dialog;
 const BrowserWindow = electron.BrowserWindow;
+const globalShortcut = electron.globalShortcut;
 
 const path = require('path');
 const join = path.join;
@@ -35,6 +36,14 @@ app.on('ready', function() {
   });
 
   require('./menu');
+
+  var ret = globalShortcut.register('ctrl+o', function() {
+    console.log('ctrl+o is pressed');
+  });
+
+  if (!ret) {
+    console.log('registration failed');
+  }
 
   // 打开文件浏览框
   ipc.on('openDialog', function(event) {
@@ -119,7 +128,7 @@ app.on('ready', function() {
   ipc.on('compressFiles', function(event, rootPath) {
     var curPath = path.join(rootPath, 'out');
     if (!file.exists(curPath)) {
-      util.showMessageBox('请先生产，后再压缩！');
+      util.showMessageBox('请先点击生成，后再压缩！');
       return;
     }
     ultron.compress(curPath, function() {

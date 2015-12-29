@@ -33,6 +33,10 @@ body {
 /* Hide for mobile, show later */
 .sidebar {
   display: none;
+  width: 26%;
+}
+.sidebar, .main {
+  float: left;
 }
 @media (min-width: 768px) {
   .sidebar {
@@ -74,6 +78,8 @@ body {
 
 .main {
   padding-bottom: 30px;
+  margin-left: 26%;
+  width: 74%;
 }
 @media (min-width: 768px) {
   .main {
@@ -82,6 +88,9 @@ body {
 }
 .main .page-header {
   margin: 0;
+  padding-left: 4px;
+  padding-top: 4px;
+  font-weight: 700;
 }
 
 
@@ -105,14 +114,14 @@ body {
 }
 
 </style>
-<template>
-  <header-view :root-path="rootPath" @keyup.esc="showFileOption = false"></header-view>
-  <div class="container-fluid" @keyup.esc="showFileOption = false">
+<template >
+  <header-view :root-path="rootPath"></header-view>
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-4 col-md-3 sidebar">
+      <div class="sidebar">
         <sidebar-view></sidebar-view>
       </div>
-      <div class="col-sm-8 col-sm-offset-4 col-md-10 col-md-offset-3 main">
+      <div class="main">
         <div class="page-header">{{fileName}}</div>
         <textarea id="code"></textarea>
       </div>
@@ -131,9 +140,6 @@ import footerView from './views/footer.vue'
 import sidebarView from './views/sidebar.vue'
 
 const ipc = require('electron').ipcRenderer;
-const remote = require('electron').remote;
-const Menu = remote.Menu;
-const MenuItem = remote.MenuItem;
 
 const MERGE = 'merge';
 
@@ -227,7 +233,8 @@ export default {
       var model = this.$get('curModel');
       model.fullPath = newPath;
       self.updateTreeData(model);
-    })
+    });
+
   },
   events: {
     removeTreeNode(model, vm) {
