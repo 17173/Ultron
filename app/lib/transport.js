@@ -1,13 +1,16 @@
 /**
  * 转换 shtml 文件内容为 handlebars 模板
  */
+'use strict';
 
-var path = require('path'),
-    fs = require('fs'),
-    cheerio = require('cheerio'),
-    file = require('./file'),
-    ncp = require('ncp').ncp,
-    thisPath = '.'; //path.dirname(path.dirname(process.argv[1]));
+const path = require('path'),
+  join = path.join,
+  fs = require('fs'),
+  cheerio = require('cheerio'),
+  ncp = require('ncp').ncp,
+  thisPath = path.dirname(__dirname);
+
+const logger = require('./logger');
 
 module.exports = {
   init: function(data,fileName,fileGroupPath,root, execType) {
@@ -114,7 +117,7 @@ module.exports = {
     var componentRepeat = {};
 
     $('[cms-data-type]').each(function(i,el){
-      var type = $(this).attr('cms-data-type'),
+      var type = $(this).attr('cms-data-type').replace(/^list-\w+$/, 'list-content'),
           cid = $(this).attr('cms-data-component-cid'),
           sameid = $(this).attr('cms-data-component-sameid'),
           nodeType = $(this).attr('cms-node-type');
@@ -135,16 +138,20 @@ module.exports = {
         if(!!cid) {
           componentRepeat[cid] = content;
         }
-        var src = thisPath + '/template/component/' + type + '/',dst = self.fileGroupPath + '/' + type + '-' + (!!cid ? cid : componentIds[type]++) + '/';
-
+        var src = join(thisPath, 'template', 'component', type);
+        var componentValue = type + '-' + (!!cid ? cid : componentIds[type]++);
+        var dst = join(self.fileGroupPath, componentValue);
+        //var src = thisPath + '/template/component/' + type + '/',dst = self.fileGroupPath + '/' + type + '-' + (!!cid ? cid : componentIds[type]++) + '/';
+        logger.info('复制的源路径: %s', src);
+        logger.info('复制的目地路径: %s', dst);
         /** ncp为异步复制，所以回调的函数不能使用同步操作 **/
         ncp(src, dst, function (err) {
           if (err) {
-            return console.error(err);
+            return logger.error(err);
           }
-          fs.readFile(src + 'component.handlebars',{'encoding' : 'utf-8'},function(err,contents){
+          fs.readFile(join(src,'component.handlebars'),{'encoding' : 'utf-8'},function(err,contents){
             if (err) {
-              return console.error(err);
+              return logger.error(err);
             }
             //格式化代码，去掉前缀空白字符
             var htm =  content.html().split(/\r\n/);
@@ -159,7 +166,7 @@ module.exports = {
               htm[i] = htm[i].replace(regg,'');
             }
             //写入
-            fs.writeFile(dst + 'component.handlebars',contents + '\r\n' + htm.join('\r\n'));
+            fs.writeFile(dst + '/component.handlebars',contents + '\r\n' + htm.join('\r\n'));
           });
         });
         //file.copy(thisPath + '/template/component/' + type, 'out/group/' + type + '-' + (i + 1));

@@ -4,11 +4,12 @@
  */
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var dialog = require('electron').dialog;
+const fs = require('fs');
 
-var join = path.join;
+const path = require('path');
+const join = path.join;
+
+const dialog = require('electron').dialog;
 
 module.exports = {
   existElement: function(target, objects) {

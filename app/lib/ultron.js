@@ -10,7 +10,7 @@ const path = require('path'),
 const file = require('./file'),
 	transport = require('./transport'),
 	util = require('./util'),
-	log = require('./log');
+	logger = require('./logger');
 
 const OUT = 'out';
 const MERGE = 'merge';
@@ -39,12 +39,12 @@ module.exports = {
 
 		walker.on('end', function() {
 			file.data.forEach(function(filename) {
-				console.log('生产模板： ' + filename);
+				logger.info('生产模板： ' + filename);
 			});
 
 			callback();
 			util.showMessageBox('模板生成成功，请到目录' + OUT + '下查看！');
-			log.info('生成成功！');
+			logger.info('生成成功！');
 		});
 	},
 
@@ -69,11 +69,11 @@ module.exports = {
 
 		walker.on('end', function() {
 			file.data.forEach(function(filename) {
-				console.log('读取 inc: ' + filename);
+				logger.info('读取 inc: ' + filename);
 			});
 
 			callback();
-			log.info('合并成功！');
+			logger.info('合并成功！');
 		});
 	},
 
@@ -81,7 +81,7 @@ module.exports = {
 	compress: function(filePath, callback) {
 		fs.readdir(path.join(path.dirname(__dirname), 'template', 'component'), function(err, components){
 			if (err) {
-				return console.log('err while reading files', err);
+				return logger.info('err while reading files', err);
 			}
 			components = components.filter(function(name) {
 				return name !== '.DS_Store';
@@ -124,13 +124,13 @@ var findComponents = function(filePath, components) {
 					});
 					archive.addFiles(files, function(err) {
 						if (err) {
-							return console.log('err while adding files', err);
+							return logger.info('err while adding files', err);
 						}
 						    
 				    var buff = archive.toBuffer();
 				    
 				    fs.writeFile(join(filePath, name + '.zip'), buff, function () {
-				      log.info('已压缩组件' + name);
+				      logger.info('已压缩组件' + name);
 				    });
 					});
 				}

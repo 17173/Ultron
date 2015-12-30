@@ -3,16 +3,18 @@
  * 大部份参考 https://github.com/gruntjs/grunt/blob/master/lib/grunt/file.js
  */
 
-var fs = require('fs'),
+'use strict';
+
+const fs = require('fs'),
     iconv = require('iconv-lite'),
     rimraf = require('rimraf'),
     path = require('path');
 
-var log = require('./log');    
+const pathSeparatorRe = /[\/\\]/g;
 
-var pathSeparatorRe = /[\/\\]/g;
+const logger = require('./logger');
 
-var file = module.exports = {
+const file = module.exports = {
   defaultEncoding: 'utf8',
   preserveBOM: false,
   data: [],
@@ -36,7 +38,7 @@ var file = module.exports = {
   read: function(filepath, options) {
     options = options || {};
     var contents;
-    log.info('Reading ' + filepath + '...');
+    logger.info('Reading ' + filepath + '...');
     
     try {
       contents = fs.readFileSync(String(filepath));
@@ -51,12 +53,12 @@ var file = module.exports = {
         return contents;
       }
     } catch(e) {
-      throw log.error('Unable to read "' + filepath + '" file (Error code: ' + e.code + ')');
+      throw logger.error('Unable to read "' + filepath + '" file (Error code: ' + e.code + ')');
     }
   },
   write: function(filepath, contents, options) {
     options = options || {}; 
-    log.info('Writing ' + filepath + '...');
+    logger.info('Writing ' + filepath + '...');
     // Create path, if necessary.
     file.mkdir(path.dirname(filepath));
     try {
@@ -92,7 +94,7 @@ var file = module.exports = {
         try {
           fs.mkdirSync(subpath, mode);
         } catch(e) {
-          throw log.error('Unable to create directory "' + subpath + '" (Error code: ' + e.code + ').', e);
+          throw logger.error('Unable to create directory "' + subpath + '" (Error code: ' + e.code + ').', e);
         }
       }
       return parts;
@@ -178,7 +180,7 @@ file._copy = function(srcpath, destpath) {
   //var contents = fs.createReadStream( srcpath );
 
   if (contents === false) {
-    log.warn('Write aborted.');
+    logger.warn('Write aborted.');
   } else {
     //var writable = fs.createWriteStream( destpath );
     //contents.pipe( writable );
@@ -190,18 +192,18 @@ file._copy = function(srcpath, destpath) {
 file.remove = function(filepath) {
   filepath = String(filepath);
 
-  log.info('Deleting ' + filepath + '...');
+  logger.info('Deleting ' + filepath + '...');
 
   if (!file.exists(filepath)) {
-    log.warn('Cannot delete nonexistent file.');
+    logger.warn('Cannot delete nonexistent file.');
     return false;
   }
 
   if (file.isPathCwd(filepath)) {
-    log.warn('Cannot delete the current working directory.');
+    logger.warn('Cannot delete the current working directory.');
     return false;
   } else if (!file.isPathInCwd(filepath)) {
-    log.warn('Cannot delete files outside the current working directory.');
+    logger.warn('Cannot delete files outside the current working directory.');
     return false;
   }
 
@@ -210,7 +212,7 @@ file.remove = function(filepath) {
     rimraf.sync(filepath);
     return true;
   } catch(e) {
-    throw log.error('Unable to delete "' + filepath + '" file (' + e.message + ').');
+    throw logger.error('Unable to delete "' + filepath + '" file (' + e.message + ').');
   }
 
 };
@@ -218,10 +220,10 @@ file.remove = function(filepath) {
 // 删除目录
 file.rmdirSync = (filepath) => {
 
-  log.info('Deleting ' + filepath + '...');
+  logger.info('Deleting ' + filepath + '...');
 
   if (!file.exists(filepath)) {
-    log.warn('Cannot delete nonexistent file.');
+    logger.warn('Cannot delete nonexistent file.');
     return false;
   }
 
@@ -230,7 +232,7 @@ file.rmdirSync = (filepath) => {
     rimraf.sync(filepath);
     return true;
   } catch(e) {
-    throw log.error('Unable to delete "' + filepath + '" file (' + e.message + ').');
+    throw logger.error('Unable to delete "' + filepath + '" file (' + e.message + ').');
   }
 }
 
