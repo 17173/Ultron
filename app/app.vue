@@ -161,6 +161,33 @@ export default {
       }
     }
   },
+  created() {
+    var self = this;
+
+    this.$on('getCode', function(content, name, filePath) {
+      self.$set('fileName', name);
+      self.$set('filePath', filePath);
+      self.editor.setValue(content);
+    });
+
+    this.$on('getRootPath', function(rootPath) {
+      self.$set('rootPath', rootPath);
+    });
+
+    this.$watch('code', function(newVal) {
+      if (this.filePath) {
+        ipc.send('writeFile', self.filePath, newVal);
+      }
+      
+    });
+
+    ipc.on('renameFileSuccess', (event, newPath) => {
+      var model = this.$get('curModel');
+      model.fullPath = newPath;
+      self.updateTreeData(model);
+    });
+    
+  },
   ready() {
     var self = this;
 
@@ -207,35 +234,11 @@ export default {
 
       self.$set('codePosition', codePosition);
     }); 
+
+    ipc.send('checkUpdate');
     
   },
-  created() {
-    var self = this;
-
-    this.$on('getCode', function(content, name, filePath) {
-      self.$set('fileName', name);
-      self.$set('filePath', filePath);
-      self.editor.setValue(content);
-    });
-
-    this.$on('getRootPath', function(rootPath) {
-      self.$set('rootPath', rootPath);
-    });
-
-    this.$watch('code', function(newVal) {
-      if (this.filePath) {
-        ipc.send('writeFile', self.filePath, newVal);
-      }
-      
-    });
-
-    ipc.on('renameFileSuccess', (event, newPath) => {
-      var model = this.$get('curModel');
-      model.fullPath = newPath;
-      self.updateTreeData(model);
-    });
-
-  },
+  
   events: {
     removeTreeNode(model, vm) {
       if (MERGE === model.name) {

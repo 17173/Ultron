@@ -1,9 +1,10 @@
+'use strict';
+
 const electron = require('electron');
 
-const remote = electron.remote;
 const app = electron.app;
 const dialog = electron.dialog;
-const BrowserWindow = require('electron').BrowserWindow;
+const BrowserWindow = electron.BrowserWindow;
 
 const Menu = electron.Menu;
 
@@ -118,14 +119,14 @@ var template = [
           });
         }
       }, {
-        label: '反馈',
+        label: '更新日志',
         click() {
           var win = new BrowserWindow({ width: 800, height: 600, show: false });
           win.on('closed', function() {
             win = null;
           });
 
-          win.loadURL('https://github.com/17173/Ultron/issues');
+          win.loadURL('file://' + __dirname + '/CHANGELOG.html');
           win.show();
         }
       }
@@ -134,13 +135,13 @@ var template = [
 ];
 
 if (process.platform == 'darwin') {
-  var name = app.getName();
+  var appName = app.getName();
 
   template.unshift({
-    label: name,
+    label: appName,
     submenu: [
       {
-        label: '关于 ' + name,
+        label: '关于 ' + appName,
         role: 'about'
       },
       {
@@ -155,7 +156,7 @@ if (process.platform == 'darwin') {
         type: 'separator'
       },
       {
-        label: '隐藏 ' + name,
+        label: '隐藏 ' + appName,
         accelerator: 'Command+H',
         role: 'hide'
       },

@@ -1,72 +1,82 @@
-'use strict'
-var os = require('os');
-var fs = require('fs');
-var path = require('path');
-var url = require('url');
-var exec = require('child_process').exec;
-var http = require('http');
-//var ncp = require('ncp').ncp;
-//var Decompress = require('decompress');
+'use strict';
 
-// App variables
-var packageInfoUrl = 'http://10.5.121.139/cmstemplate/cmsTemplate.json';
-var fileUrl = 'http://10.5.121.139/cmstemplate/cmsTemplate.zip';
-var DOWNLOAD_DIR = os.tmpdir().replace(/\\/g,'/')+'/';
-var saveFileName = DOWNLOAD_DIR + url.parse(fileUrl).pathname.split('/').pop();
-var ROOT_DIR = path.dirname(__dirname);
-var CONFIG = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'),'utf-8'));
-var cmsTemplateUpdater = module.exports = {
-	currentVersion:CONFIG.version,
-	latestVersion:'',
-	hasNewVersion:function(cb){
-		console.log('Checking update info...');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const join = path.join;
+const http = require('http');
 
-		http.get(packageInfoUrl, function(res) {
-			res.setEncoding('utf8');
-			res.on('data',function(data){
-				var packageInfo = JSON.parse(data);
-				cmsTemplateUpdater.latestVersion = packageInfo.version;
-				if(cmsTemplateUpdater.latestVersion>cmsTemplateUpdater.currentVersion){
-					if (cb && (typeof cb==='function')) {
-						cmsTemplateUpdater.update(cb);
-					}else{
-						cmsTemplateUpdater.update();
-					}
-				}
-			});
-		}).on('error', function(e) {
-			console.log(e);
-		});
-	},
-	update:function(callback){
-		console.log('Upgrading to new version...');
+const electron = require('electron');
+const app = electron.app;
+const dialog = electron.dialog;
+const clipboard = electron.clipboard;
 
-		var file = fs.createWriteStream(saveFileName);
-		http.get(fileUrl, function(res) {
-		    res.on('data', function(data) {
-		            file.write(data);
-	        }).on('end', function() {
-	            file.end();
-	        	/*var decompress = new Decompress()
-				    .src(saveFileName)
-				    .dest(DOWNLOAD_DIR)
-				    .use(Decompress.zip());
+const logger = require('./logger');
 
-				decompress.decompress(function(){
-					ncp(DOWNLOAD_DIR+'cmsTemplate',EXE_DIR,function(){
-	            		console.log('Upgrade complete!\nNew function will work in next run.');
-	            	});
-				});*/
-				exec(ROOT_DIR + '\\7z.exe x ' + saveFileName + ' -o' + ROOT_DIR + ' -r -aoa',function(error,stdout,stderr){
-					if (error) {
-						return console.error(error);
-					}
-					callback();
-				});
-	        });
-	    }).on('error', function(e) {
-			console.log(e);
-		});
-
+const HOST = '7xpmmd.dl1.z0.glb.clouddn.com';
+const DOWNLOAD_DIR = os.tmpdir();
+const INSTALL_NAME = 'Ultron Setup.exe';
+const options = {
+	hostname: HOST,
+	path: '/package.json',
+	method: 'GET',
+	headers: {
+		'Content-Type': 'application/json'
 	}
-}
+};
+
+module.exports = {
+	checkUpdate() {
+		logger.info('Checking update info...');
+
+		var req = http.request(options, (res) => {
+		  res.on('data', (pkg) => {
+		  	pkg = JSON.parse(pkg);
+		  	var version = pkg.version;
+
+		  	logger.info('latest version: %s', version);
+		  	logger.info('current version: %s', app.getVersion());
+
+		  	if (version && version > app.getVersion() ) {
+		  		clipboard.writeText(join(HOST, version, INSTALL_NAME));
+		  		dialog.showMessageBox({
+		  			type: 'info',
+		  			buttons:['确定'],
+		  			title: '更新软件',
+		  			message: '有版本更新，下载地址已复制到粘贴板，请直接粘贴到浏览器地址栏下载',
+		  			detail: '建议更新到最新的版本 ' + version
+		  		});
+		  	}
+		  });
+		  res.on('end', () => console.log('No more data in response.'));
+		});
+
+		req.on('error', (e) => logger.error('problem with request: %s', e.message));
+		req.end();
+	},
+	update(fileUrl, version) {
+		logger.info('下载地址：%s', fileUrl);
+		logger.info('Upgrading to new version...');
+		
+		var file = fs.createWriteStream(join(DOWNLOAD_DIR, INSTALL_NAME));
+		console.log(join(DOWNLOAD_DIR, INSTALL_NAME));
+		var req = http.request({
+			hostname: HOST,
+			path: '/' + version + '/' + INSTALL_NAME,
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/x-msdownload'
+			}
+		}, (res) => {
+			console.log(res);
+		  res.on('data', (chunk) => {
+		  	file.write(chunk);
+		  });
+
+		});
+
+		req.on('error', (e) => logger.error('problem with request: %s', e.message));
+		req.on('end', () => file.end());
+		req.end();
+	}
+};

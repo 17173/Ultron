@@ -14,6 +14,7 @@ const join = path.join;
 const file = require('./lib/file');
 const util = require('./lib/util');
 const ultron = require('./lib/ultron');
+const updater = require('./lib/updater');
 
 const MERGE_PATH = 'merge';
 
@@ -28,8 +29,8 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   mainWindow = new BrowserWindow({ width: 1024, height: 728 });
 
-  mainWindow.loadURL('file://' + __dirname + '/main.html');
-  //mainWindow.loadURL('http://localhost:8080/app/main.html');
+  //mainWindow.loadURL('file://' + __dirname + '/main.html');
+  mainWindow.loadURL('http://localhost:8080/app/main.html');
 
   mainWindow.on('closed', function() {
     mainWindow = null;
@@ -95,7 +96,6 @@ app.on('ready', function() {
 
   // 异步更改文件路径
   ipc.on('renameFile', (event, oldPath, newFileName) => {
-    console.log(typeof callback);
     let newPath = join(path.dirname(oldPath), newFileName);
     file.rename(oldPath, newPath, function(err) {
       if (err) {
@@ -109,11 +109,11 @@ app.on('ready', function() {
   // 计算路径，供 render process
   ipc.on('computePath', (event, oldPath, newFileName) => {
     event.returnValue = join(path.dirname(oldPath), newFileName);
-  })
+  });
 
   ipc.on('joinPath', (event, filePath, fileName) => {
     event.returnValue = join(filePath, fileName);
-  })
+  });
 
 
   // 生产处理过的文件
@@ -135,6 +135,9 @@ app.on('ready', function() {
       loadFiles(event, rootPath);
     });
   });
+
+  // 检查软件更新
+  ipc.on('checkUpdate', () => updater.checkUpdate());
 
 });
 

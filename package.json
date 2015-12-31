@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --quiet",
+    "md": "ghmd --title 更新日志 --dest app/changelog.html CHANGELOG.md",
     "clean": "rm -rf ./dist",
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
