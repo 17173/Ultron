@@ -1,0 +1,10 @@
+<header class="header">
+	<a href="http://m.17173.com" class="logo-17173"><img src="http://ue1.17173cdn.com/a/lib/logo/normal-s.png" alt="17173" width="150" height="50"></a>
+	<span class="txt-17173">专区</span>
+	<!--#if expr="${logoIndex} = 1"-->
+	<h1 class="txt-game"><a href="#">英雄联盟</a></h1>
+	<!--#else-->
+	<div class="txt-game"><a href="#">英雄联盟</a></div>
+	<!--#endif--> 
+	<a href="http://lol.17173.com" class="btn-pc"><i class="ico-pc"></i>电脑版</a>
+</header>

@@ -1,28 +1,20 @@
 # Ultron
-奥创（Ultron）CMS3.0  工具
+奥创（Ultron）CMS3.0  模板制作工具
 
 ## 安装
 
 node >= 5.0
-electron-built >=0.36.0
-electron-builder >=2.4.0
+electron-built >=1.2.1
 
 ```
-npm install electron-built && electron-builder && github-markdown -g
+npm install
 ```
 
 ## 调试
 
 ```
-npm run dev
+npm run start
 
-```
-
-再打开一个控制台
-
-```
-cd app
-electron .
 ```
 
 ## 打包
@@ -30,17 +22,13 @@ electron .
 ### WINDOWS
 
 ```
-npm run build:vue
-npm run build:win
-npm run pack:win
+npm run release:win
 ```
 
 ### OSX
 
 ```
-npm run build:vue
-npm run build:osx
-npm run pack:osx
+npm run release:osx
 ```
 
 

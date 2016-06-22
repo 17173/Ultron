@@ -1,8 +1,8 @@
 {
   "osx" : {
     "title": "Ultron",
-    "background": "assets/osx/installer.png",
-    "icon": "assets/osx/mount.icns",
+    "background": "build/resources/icon.png",
+    "icon": "build/resources/icon.icns",
     "icon-size": 80,
     "contents": [
       { "x": 438, "y": 344, "type": "link", "path": "/Applications" },
@@ -11,6 +11,6 @@
   },
   "win" : {
     "title" : "Ultron",
-    "icon" : "assets/win/ultron.ico"
+    "icon" : "build/resources/icon.ico"
   }
 }

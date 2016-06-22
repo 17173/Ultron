@@ -20,7 +20,10 @@
 
 <script>
 module.exports = {
-  replace: true,
-  props: ['codePosition']
+  vuex: {
+    getters: {
+      codePosition: state => state.codePosition
+    }
+  }
 }
 </script>

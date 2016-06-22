@@ -24,59 +24,59 @@
 <script>
 import EventListener from './utils/EventListener.js'
 import getScrollBarWidth from './utils/getScrollBarWidth.js'
-  export default {
-    props: {
-      show: {
-        type: Boolean,
-        require: true,
-        twoWay: true
-      },
-      placement: {
-        type: String,
-        default: 'right'
-      },
-      header: {
-        type: String
-      },
-      width: {
-        type: Number,
-        default: '350'
-      }
+export default {
+  props: {
+    show: {
+      type: Boolean,
+      require: true,
+      twoWay: true
     },
-    watch: {
-      show(val) {
-        let backdrop = document.createElement('div')
-        const body = document.body
-        backdrop.className = 'aside-backdrop'
-        const scrollBarWidth =  getScrollBarWidth()
-        if (val) {
-          body.appendChild(backdrop)
-          body.classList.add('modal-open')
-          if (scrollBarWidth !== 0) {
-            body.style.paddingRight = scrollBarWidth + 'px'
-          }
-          // request property that requires layout to force a layout
-          var x = backdrop.clientHeight
-          backdrop.className += ' in'
-          this._clickEvent = EventListener.listen(backdrop, 'click', this.close)
-        } else {
-          if (this._clickEvent) this._clickEvent.remove()
-          backdrop = document.querySelector('.aside-backdrop')
-          backdrop.className = 'aside-backdrop'
-          setTimeout(() => {
-            body.classList.remove('modal-open')
-            body.style.paddingRight = '0'
-            body.removeChild(backdrop)
-          }, 300)
+    placement: {
+      type: String,
+      default: 'right'
+    },
+    header: {
+      type: String
+    },
+    width: {
+      type: Number,
+      default: '350'
+    }
+  },
+  watch: {
+    show (val) {
+      let backdrop = document.createElement('div')
+      const body = document.body
+      backdrop.className = 'aside-backdrop'
+      const scrollBarWidth = getScrollBarWidth()
+      if (val) {
+        body.appendChild(backdrop)
+        body.classList.add('modal-open')
+        if (scrollBarWidth !== 0) {
+          body.style.paddingRight = scrollBarWidth + 'px'
         }
-      }
-    },
-    methods: {
-      close() {
-        this.show = false
+        // request property that requires layout to force a layout
+        // var x = backdrop.clientHeight
+        backdrop.className += ' in'
+        this._clickEvent = EventListener.listen(backdrop, 'click', this.close)
+      } else {
+        if (this._clickEvent) this._clickEvent.remove()
+        backdrop = document.querySelector('.aside-backdrop')
+        backdrop.className = 'aside-backdrop'
+        setTimeout(() => {
+          body.classList.remove('modal-open')
+          body.style.paddingRight = '0'
+          body.removeChild(backdrop)
+        }, 300)
       }
     }
+  },
+  methods: {
+    close () {
+      this.show = false
+    }
   }
+}
 </script>
 
 <style>

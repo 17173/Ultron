@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<title>英雄联盟移动端33</title>
+<!--#include virtual="/inc-site/m-head-begin.shtml" wait="yes"-->
+<link rel="stylesheet" href="http://ue.17173cdn.com/a/lib/reset-m-1.1.css">
+<link rel="stylesheet" href="http://ue.17173cdn.com/a/lol/index/2015/m/css/style.css">
+<script src="http://ue.17173cdn.com/a/lib/jquery-2.1.1.min.js"></script>
+<script src="http://ue.17173cdn.com/a/lib/pandora.js"></script>
+<script src="http://ue.17173cdn.com/a/lol/index/2015/m/js/swiper3.1.0.jquery.min.js"></script>
+<!--#include virtual="/inc-site/m-head-end.shtml" wait="yes"-->
+</head>
+<body>
+<!--#include virtual="/inc-site/m-body-begin.shtml" wait="yes"-->
+	<div class="wrapper">
+		<!--#include virtual="inc/inc-pn-spread.shtml"-->
+		<!--#include virtual="inc/inc-header.shtml"-->
+		<div class="content">
+			<div class="pn-banner"><img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-640-200.jpg" alt="" width="640" height="200"></div>
+			<div class="pn-guide">
+				<p><i class="ico-quote-pre"></i>在这里，魔法不只是一种神秘莫测的能量概念。它是实体化的物质，可以被引导、成形、塑造和操作。符文之地的魔法拥有自己的自然法则。源生态魔法随机变化的结了科学法则。</p>
+			</div>
+			<div class="nav-zt">
+				<ul class="comm-tab1">
+					<li class="current"><a href="javascript:;">全部</a></li>
+					<li><a href="#area1">专题分类</a></li>
+					<li><a href="#area2">精彩视频</a></li>
+					<li><a href="#area3">游戏图片</a></li>
+				</ul>
+			</div>
+			<div class="comm-pn" id="area1">
+				<div class="hd">
+					<h2 class="tit">专题分类</h2>
+				</div>
+				<div class="bd">
+					<ul class="comm-ptlist">
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+									<i class="ico-video"></i>
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+										<span class="sign">热门</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+										<span class="sign1">专题</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+										<span class="sign2">图片</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+										<span class="sign">热门</span>
+										<span class="sign1">专题</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+									</div>
+								</section>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="comm-pn" id="area2">
+				<div class="hd">
+					<h2 class="tit">精彩视频</h2>
+				</div>
+				<div class="bd">
+					<ul class="comm-plist2">
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="comm-pn" id="area3">
+				<div class="hd">
+					<h2 class="tit">游戏图片</h2>
+				</div>
+				<div class="bd">
+					<ul class="comm-ptlist1">
+						<li>
+							<a href="#">
+								<section class="c1">
+									<h3 class="tit">还原度最高的美男Cosplay: 光执事</h3>
+								</section>
+								<section class="c2">
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-180-130.jpg" alt="" width="180" height="130">
+									</figure>
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+									</figure>
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-260-380.jpg" alt="" width="260" height="380">
+									</figure>
+								</section>
+								<section class="c3">
+									<span class="date">2013-07-09</span>
+									<span class="num"><i>26</i>评论</span>
+									<span class="count"><i>9</i>图</span>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<section class="c1">
+									<h3 class="tit">还原度最高的美男Cosplay: 光执事</h3>
+								</section>
+								<section class="c2">
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-180-130.jpg" alt="" width="180" height="130">
+									</figure>
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-180-130.jpg" alt="" width="180" height="130">
+									</figure>
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-180-130.jpg" alt="" width="180" height="130">
+									</figure>
+								</section>
+								<section class="c3">
+									<span class="date">2013-07-09</span>
+									<span class="num"><i>26</i>评论</span>
+									<span class="count"><i>9</i>图</span>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<section class="c1">
+									<h3 class="tit">还原度最高的美男Cosplay: 光执事</h3>
+								</section>
+								<section class="c2">
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-180-130.jpg" alt="" width="180" height="130">
+									</figure>
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-180-130.jpg" alt="" width="180" height="130">
+									</figure>
+									<figure>
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-180-130.jpg" alt="" width="180" height="130">
+									</figure>
+								</section>
+								<section class="c3">
+									<span class="date">2013-07-09</span>
+									<span class="num"><i>26</i>评论</span>
+									<span class="count"><i>9</i>图</span>
+								</section>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--#include virtual="inc/inc-footer.shtml"-->
+		<!--#include virtual="/inc-site/m-footer.shtml" wait="yes"-->
+	</div>
+	<!--end.wrapper-->
+<script src="http://ue.17173cdn.com/a/lol/index/2015/m/js/design.js"></script>
+<!--#include virtual="/inc-site/m-body-end.shtml" wait="yes"-->
+</body>
+</html>

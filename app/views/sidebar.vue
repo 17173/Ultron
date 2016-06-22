@@ -1,5 +1,112 @@
+<template>
+  <div class="explore">
+    <span class="text-uppercase">explore</span> 
+    <span class="pull-right" @click="openFiles"><i class="fa fa-files-o"></i> 打开</span>
+    <span class="pull-right refresh-file" v-show="open" @click="updateFiles"><i class="fa fa-refresh"></i> 刷新</span>
+  </div>
+  <!-- <div class="working-files">
+    <h3 class="sidebar-title">open files</h3>
+    <ul class="list-unstyled selected-file" v-repeat="selectedFile in selectedFiles">
+      <li><i class="fa fa-close"></i> {{selectedFile.name}}</li>
+    </ul>
+  </div> -->
+
+  <div class="project-files">
+    <h3 class="sidebar-title">folders</h3>
+    <ul class="tree">
+      <tree :model="treeData"></tree>
+    </ul>
+  </div>
+</template>
+<script>
+  import tree from '../components/tree.vue'
+
+  import {
+    setTreeData,
+    setRootPath,
+    openFileDialog,
+    updateAllFiles
+  } from '../vuex/actions'
+
+  const ipc = require('electron').ipcRenderer
+  
+  module.exports = {
+    vuex: {
+      getters: {
+        treeData: state => state.treeData,
+        open: state => state.open
+      },
+      actions: {
+        setTreeData,
+        setRootPath,
+        openFileDialog,
+        updateAllFiles
+      }
+    },
+    data () {
+      return {
+        selectedFiles: []
+      }
+    },
+
+    computed: {
+      projectName () {
+        return this.treeData.name
+      }
+    },
+
+    ready () {
+      ipc.on('getFiles', (event, projectName, files, rootPath) => {
+        this.setTreeData({
+          name: projectName,
+          fullPath: rootPath,
+          children: files
+        })
+        this.setRootPath(rootPath)
+      })
+    },
+
+    created () {
+      var self = this
+      this.$on('selectNode', (filePath, fileName) => {
+        var exist = false
+        var files = self.$get('selectedFiles')
+
+        files.forEach(item => {
+          if (item.fullPath === filePath) {
+            exist = true
+            return false
+          }
+        })
+
+        if (!exist) {
+          files.push({
+            name: fileName,
+            fullPath: filePath
+          })
+          self.$set('selectedFiles', files)
+        }
+      })
+    },
+
+    methods: {
+      updateFiles () {
+        this.updateAllFiles()
+      },
+
+      openFiles () {
+        this.openFileDialog()
+      }
+    },
+
+    components: {
+      tree
+    }
+  }
+</script>
 <style>
-.explore {
+.project-files {
+  margin-top: 20px;
 }
 .sidebar,
 .sidebar h2,
@@ -26,127 +133,3 @@
   margin-right: 8px;
 }
 </style>
-<template>
-  <div class="explore">
-    <span class="text-uppercase">explore</span> 
-    <span class="pull-right"><i class="fa fa-files-o" @click="openFiles"></i> </span>
-    <span class="pull-right refresh-file" v-show="open"><i class="fa fa-refresh" @click="updateFiles"></i></span>
-  </div>
-  <!-- <div class="working-files">
-    <h3 class="sidebar-title">open files</h3>
-    <ul class="list-unstyled selected-file" v-repeat="selectedFile in selectedFiles">
-      <li><i class="fa fa-close"></i> {{selectedFile.name}}</li>
-    </ul>
-  </div> -->
-
-  <div class="project-files">
-    <h3 class="sidebar-title">folders</h3>
-    <ul class="tree">
-      <tree :model="treeData"></tree>
-    </ul>
-  </div>
-
-  <!-- <div class="no-files" v-if="!open">
-    <div class="dnd-file" v-on="
-      dragover: dragoverHandle,
-      drop: dropHandle
-    ">
-    将文件拖放到此处
-    </div>
-  </div> -->
-</template>
-<script>
-  import tree from '../components/tree.vue';
-
-  const ipc = require('electron').ipcRenderer;
-  
-  module.exports = {
-    data() {
-      return {
-        treeData: {},
-        selectedFiles: [],
-        open: false
-      }
-    },
-
-    computed: {
-      rootPath() {
-        return this.treeData.fullPath;
-      },
-
-      projectName() {
-        return this.treeData.name;
-      }
-    },
-
-    ready() {
-      var self = this;
-      ipc.on('getFiles', function(event, projectName, files, rootPath) {
-        self.$set('open', true);
-        self.$set('treeData', {
-          name: projectName,
-          fullPath: rootPath,
-          children: files
-        });
-
-        self.$dispatch('getRootPath', rootPath);
-      });
-
-    },
-
-    created() {
-      var self = this;
-      this.$on('selectNode', function(filePath, fileName) {
-        var exist = false;
-        var files = self.$get('selectedFiles');
-
-        files.forEach(function(item) {
-          if (item.fullPath === filePath) {
-            exist = true;
-            return false;
-          }
-        });
-
-        if (!exist) {
-          files.push({
-            name: fileName,
-            fullPath: filePath
-          });
-          self.$set('selectedFiles', files);
-        }
-      });
-    },
-
-    methods: {
-      updateFiles() {
-        ipc.send('updateFiles', this.rootPath);
-      },
-      
-      openFiles() {
-        ipc.send('openDialog');
-      },
-      dropHandle(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-
-        var files = evt.dataTransfer.files;
-
-        if (files.length) {
-          files = files[0];
-          this.projectName = files.name;
-          this.open = true;
-        }
-      },
-      dragoverHandle(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        evt.dataTransfer.dropEffect = 'copy';
-      },
-
-    },
-
-    components: {
-      tree
-    }
-  }
-</script>

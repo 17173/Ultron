@@ -3,8 +3,6 @@
  * 大部份参考 https://github.com/gruntjs/grunt/blob/master/lib/grunt/file.js
  */
 
-'use strict';
-
 const fs = require('fs'),
     iconv = require('iconv-lite'),
     rimraf = require('rimraf'),

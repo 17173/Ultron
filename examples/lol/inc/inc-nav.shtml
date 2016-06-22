@@ -1,0 +1,15 @@
+<nav class="nav">
+	<div class="swiper-container swiper-nav">
+		<div class="swiper-wrapper">
+	        <div class="swiper-slide">热门</div>
+	        <div class="swiper-slide">视频</div>
+	        <div class="swiper-slide">赛事</div>
+	        <div class="swiper-slide">攻略</div>
+	        <div class="swiper-slide">活动</div>
+	        <div class="swiper-slide">专题</div>
+	        <div class="swiper-slide">专题1</div>
+	        <div class="swiper-slide">专题2</div>
+	        <div class="swiper-slide">专题3</div>
+	    </div>
+	</div>
+</nav>

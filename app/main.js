@@ -1,4 +1,10 @@
-var Vue = require('vue');
-var appOptions = require('./app.vue')
-var app = new Vue(appOptions).$mount().$appendTo('#app')
+import Vue from 'vue'
+import app from './app.vue'
 
+/* eslint-disable no-new */
+new Vue({
+  el: 'body',
+  components: {
+    app
+  }
+})

@@ -2,7 +2,6 @@
  * [exports description]
  * @type {Object}
  */
-'use strict';
 
 const fs = require('fs');
 

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<title>英雄联盟移动端</title>
+<!--#include virtual="/inc-site/m-head-begin.shtml" wait="yes"-->
+<link rel="stylesheet" href="http://ue.17173cdn.com/a/lib/reset-m-1.1.css">
+<link rel="stylesheet" href="http://ue.17173cdn.com/a/lol/index/2015/m/css/style.css">
+<script src="http://ue.17173cdn.com/a/lib/jquery-2.1.1.min.js"></script>
+<script src="http://ue.17173cdn.com/a/lib/pandora.js"></script>
+<script src="http://ue.17173cdn.com/a/lol/index/2015/m/js/swiper3.1.0.jquery.min.js"></script>
+<!--#include virtual="/inc-site/m-head-end.shtml" wait="yes"-->
+</head>
+<body class="page1">
+<!--#include virtual="/inc-site/m-body-begin.shtml" wait="yes"-->
+	<div class="wrapper">
+		<!--#include virtual="inc/inc-pn-spread.shtml"-->
+		<!--#set var="logoIndex" value="1"-->
+		<!--#include virtual="inc/inc-header.shtml"-->
+		<!--#include virtual="inc/inc-nav.shtml"-->
+		<div class="content">
+			<div class="swiper-container swiper-focus">
+    			<div class="swiper-wrapper">
+			        <div class="swiper-slide">
+						<ul class="comm-plist">
+							<li>
+								<a href="#">
+									<figure class="c1">
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-640-320.jpg" alt="" width="640" height="320">
+									</figure>
+									<p class="c2">柔道2觉和暗帝的原画师介绍D&F原柔道2觉和暗帝的原画师介绍D&F原</p>
+								</a>
+							</li>
+						</ul>
+			        </div>
+			        <div class="swiper-slide">
+						<ul class="comm-plist">
+							<li>
+								<a href="#">
+									<figure class="c1">
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-640-320.jpg" alt="" width="640" height="320">
+									</figure>
+									<p class="c2">柔道2觉和暗帝的原画师介绍D&F原</p>
+								</a>
+							</li>
+						</ul>
+			        </div>
+			        <div class="swiper-slide">
+						<ul class="comm-plist">
+							<li>
+								<a href="#">
+									<figure class="c1">
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-640-320.jpg" alt="" width="640" height="320">
+									</figure>
+									<p class="c2">柔道2觉和暗帝的原画师介绍D&F原</p>
+								</a>
+							</li>
+						</ul>
+			        </div>
+			        <div class="swiper-slide">
+						<ul class="comm-plist">
+							<li>
+								<a href="#">
+									<figure class="c1">
+										<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-640-320.jpg" alt="" width="640" height="320">
+									</figure>
+									<p class="c2">柔道2觉和暗帝的原画师介绍D&F原</p>
+								</a>
+							</li>
+						</ul>
+			        </div>
+			    </div>
+			    <div class="swiper-pagination"></div>
+			</div>
+			<div class="comm-pn">
+				<div class="bd">
+					<ul class="comm-plist1">
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-140.jpg" alt="" width="290" height="140">
+								</figure>
+								<section class="c2">
+									<span class="tit">风女最强辅助</span>
+									<span class="txt">不占线不抢人头</span>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-140.jpg" alt="" width="290" height="140">
+								</figure>
+								<section class="c2">
+									<span class="tit">风女最强辅助</span>
+									<span class="txt">不占线不抢人头</span>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-140.jpg" alt="" width="290" height="140">
+								</figure>
+								<section class="c2">
+									<span class="tit">风女最强辅助</span>
+									<span class="txt">不占线不抢人头</span>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-140.jpg" alt="" width="290" height="140">
+								</figure>
+								<section class="c2">
+									<span class="tit">风女最强辅助</span>
+									<span class="txt">不占线不抢人头</span>
+								</section>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="comm-pn">
+				<div class="bd">
+					<ul class="comm-ptlist">
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+									<i class="ico-video"></i>
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+										<span class="sign">热门</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+										<span class="sign1">专题</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+										<span class="sign2">图片</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+										<span class="sign">热门</span>
+										<span class="sign1">专题</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+									</div>
+								</section>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-150-110.jpg" alt="" width="150" height="110">
+								</figure>
+								<section class="c2">
+									<h3 class="tit">看中韩对抗赛领领取60W经验金属调整小预告</h3>
+									<div class="info">
+										<span class="date">2013-07-09</span>
+										<span class="num"><i>26</i>评论</span>
+									</div>
+								</section>
+							</a>
+						</li>
+					</ul>
+					<div class="box-refresh"><i class="ico-refresh"></i></div>
+				</div>
+			</div>
+		</div>
+		<!--#include virtual="inc/inc-footer.shtml"-->
+		<!--#include virtual="/inc-site/m-footer.shtml" wait="yes"-->
+	</div>
+	<!--end.wrapper-->
+<script src="http://ue.17173cdn.com/a/lol/index/2015/m/js/design.js"></script>
+<!--#include virtual="/inc-site/m-body-end.shtml" wait="yes"-->
+</body>
+</html>

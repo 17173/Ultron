@@ -31,73 +31,73 @@
 import getScrollBarWidth from './utils/getScrollBarWidth.js'
 import EventListener from './utils/EventListener.js'
 
-  export default {
-    props: {
-      title: {
-        type: String,
-        default: ''
-      },
-      content: {
-        type: String,
-        default: ''
-      },
-      show: {
-        require: true,
-        type: Boolean,
-        twoWay: true
-      },
-      width: {
-        type: Number,
-        default: 600
-      },
-      callback: {
-        type: Function,
-        default() {}
-      },
-      effect: {
-        type: String,
-        default: 'fade'
-      },
-      backdrop: {
-        type: Boolean,
-        default: true
-      }
+export default {
+  props: {
+    title: {
+      type: String,
+      default: ''
     },
-    watch: {
-      show(val) {
-        const el = this.$el
-        const body = document.body
-        const scrollBarWidth =  getScrollBarWidth()
-        if (val) {
-          el.querySelector('.modal-content').focus()
-          el.style.display = 'block'
-          setTimeout(()=> el.classList.add('in'), 0)
-          body.classList.add('modal-open')
-          if (scrollBarWidth !== 0) {
-            body.style.paddingRight = scrollBarWidth + 'px'
-          }
-          if (this.backdrop) {
-            this._blurModalContentEvent = EventListener.listen(this.$el, 'click', (e)=> {
-              if (e.target === el) this.show = false
-            })
-          }
-        } else {
-          if (this._blurModalContentEvent) this._blurModalContentEvent.remove()
-          el.classList.remove('in')
-          setTimeout(()=> {
-            el.style.display = 'none'
-            body.classList.remove('modal-open')
-            body.style.paddingRight = '0'
-          }, 300)
+    content: {
+      type: String,
+      default: ''
+    },
+    show: {
+      require: true,
+      type: Boolean,
+      twoWay: true
+    },
+    width: {
+      type: Number,
+      default: 600
+    },
+    callback: {
+      type: Function,
+      default () {}
+    },
+    effect: {
+      type: String,
+      default: 'fade'
+    },
+    backdrop: {
+      type: Boolean,
+      default: true
+    }
+  },
+  watch: {
+    show (val) {
+      const el = this.$el
+      const body = document.body
+      const scrollBarWidth = getScrollBarWidth()
+      if (val) {
+        el.querySelector('.modal-content').focus()
+        el.style.display = 'block'
+        setTimeout(() => el.classList.add('in'), 0)
+        body.classList.add('modal-open')
+        if (scrollBarWidth !== 0) {
+          body.style.paddingRight = scrollBarWidth + 'px'
         }
-      }
-    },
-    methods: {
-      close() {
-        this.show = false
+        if (this.backdrop) {
+          this._blurModalContentEvent = EventListener.listen(this.$el, 'click', e => {
+            if (e.target === el) this.show = false
+          })
+        }
+      } else {
+        if (this._blurModalContentEvent) this._blurModalContentEvent.remove()
+        el.classList.remove('in')
+        setTimeout(() => {
+          el.style.display = 'none'
+          body.classList.remove('modal-open')
+          body.style.paddingRight = '0'
+        }, 300)
       }
     }
+  },
+  methods: {
+    close () {
+      this.show = false
+    }
   }
+}
 </script>
 <style>
 .modal {

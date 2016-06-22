@@ -1,4 +1,4 @@
-export default ()=> {
+export default () => {
   let inner = document.createElement('p')
   inner.style.width = '100%'
   inner.style.height = '200px'

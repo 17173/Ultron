@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<title>英雄联盟移动端</title>
+<!--#include virtual="/inc-site/m-head-begin.shtml" wait="yes"-->
+<link rel="stylesheet" href="http://ue.17173cdn.com/a/lib/reset-m-1.1.css">
+<link rel="stylesheet" href="http://ue.17173cdn.com/a/lol/index/2015/m/css/style.css">
+<script src="http://ue.17173cdn.com/a/lib/jquery-2.1.1.min.js"></script>
+<script src="http://ue.17173cdn.com/a/lib/pandora.js"></script>
+<script src="http://ue.17173cdn.com/a/lol/index/2015/m/js/swiper3.1.0.jquery.min.js"></script>
+<!--#include virtual="/inc-site/m-head-end.shtml" wait="yes"-->
+</head>
+<body class="page2 page-comm-tab1">
+<!--#include virtual="/inc-site/m-body-begin.shtml" wait="yes"-->
+	<div class="wrapper">
+		<!--#include virtual="inc/inc-pn-spread.shtml"-->
+		<!--#include virtual="inc/inc-header.shtml"-->
+		<!--#include virtual="inc/inc-nav.shtml"-->
+		<div class="content">
+			<div class="comm-pn pn-video-all">
+				<div class="hd">
+					<ul class="comm-tab tab-video-all">
+						<li><a href="#">推荐</a></li>
+						<li><a href="#">推荐</a></li>
+						<li><a href="#">推荐</a></li>
+						<li><a href="#">推荐</a></li>
+						<li><a href="#">推荐</a></li>
+						<li><a href="#">推荐</a></li>
+						<li><a href="#">推荐</a></li>
+						<li><a href="#">推荐</a></li>
+						<li><a href="#">推荐</a></li>
+					</ul>
+				</div>
+				<div class="bd">
+					<ul class="comm-plist2">
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-140.jpg" alt="" width="290" height="140">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-140.jpg" alt="" width="290" height="140">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-200.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-200.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-200.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<figure class="c1">
+									<img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-290-160.jpg" alt="" width="290" height="160">
+									<i class="ico-video"></i>
+								</figure>
+								<p class="c2">红神加强怒气可聚怪死兔子鬼剑士异界改</p>
+							</a>
+						</li>
+					</ul>
+					<div class="box-refresh"><i class="ico-refresh"></i></div>
+				</div>
+			</div>
+		</div>
+		<!--#include virtual="inc/inc-footer.shtml"-->
+		<!--#include virtual="/inc-site/m-footer.shtml" wait="yes"-->
+	</div>
+	<!--end.wrapper-->
+<script src="http://ue.17173cdn.com/a/lol/index/2015/m/js/design.js"></script>
+<!--#include virtual="/inc-site/m-body-end.shtml" wait="yes"-->
+</body>
+</html>

@@ -1,14 +1,12 @@
-'use strict';
+const electron = require('electron')
 
-const electron = require('electron');
+const app = electron.app
+const dialog = electron.dialog
+const BrowserWindow = electron.BrowserWindow
 
-const app = electron.app;
-const dialog = electron.dialog;
-const BrowserWindow = electron.BrowserWindow;
+const Menu = electron.Menu
 
-const Menu = electron.Menu;
-
-var menu = new Menu();
+var menu = new Menu()
 
 var template = [
   {
@@ -46,7 +44,7 @@ var template = [
         label: '全选',
         accelerator: 'CmdOrCtrl+A',
         role: 'selectall'
-      },
+      }
     ]
   },
   {
@@ -55,37 +53,37 @@ var template = [
       {
         label: '刷新',
         accelerator: 'CmdOrCtrl+R',
-        click(item, focusedWindow) {
+        click (item, focusedWindow) {
           if (focusedWindow)
-            focusedWindow.reload();
+            focusedWindow.reload()
         }
       },
       {
         label: '全屏',
-        accelerator: (function() {
+        accelerator: (function () {
           if (process.platform == 'darwin')
-            return 'Ctrl+Command+F';
+            return 'Ctrl+Command+F'
           else
-            return 'F11';
+            return 'F11'
         })(),
-        click(item, focusedWindow) {
+        click (item, focusedWindow) {
           if (focusedWindow)
-            focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+            focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
         }
       },
       {
         label: '打开控制台',
-        accelerator: (function() {
+        accelerator: (function () {
           if (process.platform == 'darwin')
-            return 'Alt+Command+I';
+            return 'Alt+Command+I'
           else
-            return 'F12';
+            return 'F12'
         })(),
-        click(item, focusedWindow) {
+        click (item, focusedWindow) {
           if (focusedWindow)
-            focusedWindow.toggleDevTools();
+            focusedWindow.toggleDevTools()
         }
-      },
+      }
     ]
   },
   {
@@ -101,7 +99,7 @@ var template = [
         label: '关闭',
         accelerator: 'CmdOrCtrl+W',
         role: 'close'
-      },
+      }
     ]
   },
   {
@@ -110,32 +108,32 @@ var template = [
     submenu: [
       {
         label: '关于 Ultron',
-        click() { 
+        click () { 
           dialog.showMessageBox({
             title: '关于',
             type: 'info',
             buttons: [],
             message: app.getName() + '\r版本 ' + app.getVersion() 
-          });
+          })
         }
       }, {
         label: '更新日志',
-        click() {
-          var win = new BrowserWindow({ width: 800, height: 600, show: false });
+        click () {
+          var win = new BrowserWindow({ width: 800, height: 600, show: false })
           win.on('closed', function() {
-            win = null;
-          });
+            win = null
+          })
 
-          win.loadURL('file://' + __dirname + '/CHANGELOG.html');
-          win.show();
+          win.loadURL('file://' + __dirname + '/CHANGELOG.html')
+          win.show()
         }
       }
     ]
   },
-];
+]
 
-if (process.platform == 'darwin') {
-  var appName = app.getName();
+if (process.platform === 'darwin') {
+  var appName = app.getName()
 
   template.unshift({
     label: appName,
@@ -175,10 +173,10 @@ if (process.platform == 'darwin') {
       {
         label: '退出',
         accelerator: 'Command+Q',
-        click() { app.quit(); }
-      },
+        click () { app.quit() }
+      }
     ]
-  });
+  })
   // Window menu.
   template[3].submenu.push(
     {
@@ -188,8 +186,8 @@ if (process.platform == 'darwin') {
       label: 'Bring All to Front',
       role: 'front'
     }
-  );
+  )
 }
 
-menu = Menu.buildFromTemplate(template);
-Menu.setApplicationMenu(menu);
+menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)

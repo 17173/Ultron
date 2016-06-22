@@ -3,3 +3,6 @@ dist
 npm-debug.log
 app/*.tgz
 app/logs/debug.log.*
+releases
+examples/**/out
+examples/**/merge

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<title>英雄联盟移动端</title>
+<!--#include virtual="/inc-site/m-head-begin.shtml" wait="yes"-->
+<link rel="stylesheet" href="http://ue.17173cdn.com/a/lib/reset-m-1.1.css">
+<link rel="stylesheet" href="http://ue.17173cdn.com/a/lol/index/2015/m/css/style.css">
+<script src="http://ue.17173cdn.com/a/lib/jquery-2.1.1.min.js"></script>
+<script src="http://ue.17173cdn.com/a/lib/pandora.js"></script>
+<script src="http://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+<script src="http://ue.17173cdn.com/a/lol/index/2015/m/js/swiper3.1.0.jquery.min.js"></script>
+<!--#include virtual="/inc-site/m-head-end.shtml" wait="yes"-->
+</head>
+<body>
+<!--#include virtual="/inc-site/m-body-begin.shtml" wait="yes"-->
+	<div class="wrapper">
+		<!--#include virtual="inc/inc-header.shtml"-->
+		<div class="content">
+			<div class="gallery">
+				<div class="hd">
+					<a href="javascript:;" class="gall-btn-back"></a>
+					<h1 class="tit">小清新COS：遇到这样的日女辅助就吧</h1>
+					<a href="javascript:;" class="gall-btn-array"><i class="gall-ico-array gall-ico-array-ex"></i><b>8</b>/<span>31</span></a>
+				</div>
+				<div class="bd1">
+					<div class="item"><img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-640-720.jpg" alt="" width="640" height="720"></div>
+					<div class="item"><img src="http://ue.17173cdn.com/a/lol/index/2015/m/img/img-640-720.jpg" alt="" width="640" height="720"></div>
+				</div>
+			</div>
+		</div>
+		<!--#include virtual="inc/inc-footer.shtml"-->
+		<!--#include virtual="/inc-site/m-footer.shtml" wait="yes"-->
+	</div>
+	<!--end.wrapper-->
+<script src="http://ue.17173cdn.com/a/lol/index/2015/m/js/design.js"></script>
+<!--#include virtual="/inc-site/m-body-end.shtml" wait="yes"-->
+</body>
+</html>

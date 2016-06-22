@@ -89,14 +89,14 @@ module.exports = {
         self = this;
     //添加特殊标示，以便于去除col的样式影响。
     $('body').attr('cms-node', 'made');
-    if(this.fileName.indexOf('article-list')!=-1) {
+    if(this.fileName.indexOf('article-list') !== -1) {
       // include 文章列表页
-      var article_fragment_1 = fs.readFileSync(thisPath + '/template/inc-article-list/inc-article-list-1.shtml', {encoding:'utf8'});
+      var article_fragment_1 = fs.readFileSync(thisPath + '/app/template/inc-article-list/inc-article-list-1.shtml', {encoding:'utf8'});
       // ifCond传递'<' 引起dom节点匹配问题，暂时用转换字符解决
       $('div.pagination').length && $('div.pagination').first().after('\r\n' + article_fragment_1.replace('\'<\'', '\'&lt;\'') + '\r\n').remove();
       $('div[cms-include="article-list-page"]').length && $('div[cms-include="article-list-page"]').after('\r\n' + article_fragment_1.replace('\'<\'', '\'&lt;\'') + '\r\n').remove();
-    } else if (this.fileName.indexOf('article')!=-1) {
-      // include 文章终极页
+    } else if (this.fileName.indexOf('article') !== -1) {
+      /*// include 文章终极页
       var article_fragment_1 = fs.readFileSync(thisPath + '/template/inc-article/inc-article-1.shtml', {encoding:'utf8'}),
           article_fragment_2 = fs.readFileSync(thisPath + '/template/inc-article/inc-article-2.shtml', {encoding:'utf8'}),
           article_fragment_3 = fs.readFileSync(thisPath + '/template/inc-article/inc-article-3.shtml', {encoding:'utf8'});
@@ -105,9 +105,9 @@ module.exports = {
         return $(this).attr('href').indexOf('reset')!=-1;
       }).after('\r\n' + article_fragment_1 + '\r\n');
 
-      $('head script').last().after('\r\n' + article_fragment_2 + '\r\n');
+      $('head script').last().after('\r\n' + article_fragment_2 + '\r\n');*/
 
-      $('div[cms-include="article"]').after(article_fragment_3).remove();
+      $('div[cms-include="article"]').after('<cmsmodule path="global-modules/article-zhuanqu-v3.shtml"/>').remove();
     }
 
     //添加cms标签
@@ -138,7 +138,7 @@ module.exports = {
         if(!!cid) {
           componentRepeat[cid] = content;
         }
-        var src = join(thisPath, 'template', 'component', type);
+        var src = join(thisPath, 'app', 'template', 'component', type);
         var componentValue = type + '-' + (!!cid ? cid : componentIds[type]++);
         var dst = join(self.fileGroupPath, componentValue);
         //var src = thisPath + '/template/component/' + type + '/',dst = self.fileGroupPath + '/' + type + '-' + (!!cid ? cid : componentIds[type]++) + '/';
