@@ -11,6 +11,7 @@
     "package:win": "node build/package.js --platform=win32",
     "build:win": "electron-builder \"releases/Ultron-win32-ia32\" --platform=win --out=\"dist/win\" --config=packager.json",
     "release:win": "npm run build && npm run package:win && npm run build:win",
+    "push": "git push ssh://git@ued.local.17173.com:10022/cms3/ultron.git",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e"
@@ -81,7 +82,9 @@
     "webpack-merge": "^0.8.3"
   },
   "dependencies": {
+    "fs-jetpack": "^0.9.1",
     "moment": "^2.12.0",
+    "nedb": "^1.8.0",
     "node-sass": "^3.7.0",
     "sass-loader": "^3.2.0",
     "vuex": "^0.6.3"

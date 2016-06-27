@@ -1,8 +1,8 @@
 <template>
   <div class="explore">
     <span class="text-uppercase">explore</span> 
-    <span class="pull-right" @click="openFiles"><i class="fa fa-files-o"></i> 打开</span>
-    <span class="pull-right refresh-file" v-show="open" @click="updateFiles"><i class="fa fa-refresh"></i> 刷新</span>
+    <span class="pull-right" @click="openFileDialog"><i class="fa fa-files-o"></i> 打开</span>
+    <span class="pull-right refresh-file" v-show="open" @click="updateAllFiles"><i class="fa fa-refresh"></i> 刷新</span>
   </div>
   <!-- <div class="working-files">
     <h3 class="sidebar-title">open files</h3>
@@ -25,6 +25,7 @@
     setTreeData,
     setRootPath,
     openFileDialog,
+    updateDB,
     updateAllFiles
   } from '../vuex/actions'
 
@@ -40,6 +41,7 @@
         setTreeData,
         setRootPath,
         openFileDialog,
+        updateDB,
         updateAllFiles
       }
     },
@@ -63,6 +65,7 @@
           children: files
         })
         this.setRootPath(rootPath)
+        this.updateDB()
       })
     },
 
@@ -87,16 +90,6 @@
           self.$set('selectedFiles', files)
         }
       })
-    },
-
-    methods: {
-      updateFiles () {
-        this.updateAllFiles()
-      },
-
-      openFiles () {
-        this.openFileDialog()
-      }
     },
 
     components: {

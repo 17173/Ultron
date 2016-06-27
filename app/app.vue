@@ -8,17 +8,35 @@
       <div class="main">
         <div class="page-header">{{filename}}</div>
         <div id="holder" class="holder" v-show="showCode">拖放文件到这里</div>
-        <textarea id="code"></textarea>
+        <textarea id="code" v-ace="code" :options="aceOptions"></textarea>
       </div>
     </div>
   </div>
   <footer-view></footer-view>
   <file-option :show.sync="showFileOption" :file-name.sync="curFileName"></file-option>
   <modal :show.sync="showModal" title="提示信息" content="不能删除 merge 目录！"></modal>
+  <modal :show.sync="showSetting" title="设置">
+    <div slot="bd">
+      <form>
+        <fieldset class="form-group">
+          <label for="exampleInputEmail1">文章终极页正文模板</label>
+          <select class="form-control">
+            <option value="article-zhuanqu-v3">article-zhuanqu-v3.shtml</option>
+            <option value="article-zhuanqu-v2">article-zhuanqu-v2.shtml</option>
+          </select>
+        </fieldset>
+      </form>
+    </div>
+    <div slot="ft">
+      <button type="button" class="btn btn-primary">保存</button>
+    </div>
+  </modal>
 </template>
 <script>
 import fileOption from './components/option.vue'
 import modal from './components/modal.vue'
+
+import dAce from './directives/ace'
 
 import headerView from './views/header.vue'
 import footerView from './views/footer.vue'
@@ -26,8 +44,12 @@ import sidebarView from './views/sidebar.vue'
 
 import store from './vuex/store'
 import {
+  initState,
+  updateDB,
+  removeDir,
   setFileStatus,
   setRootPath,
+  renameFile,
   updateFile,
   updateCode,
   updateCodePosition,
@@ -49,8 +71,12 @@ export default {
       codePosition: state => state.codePosition
     },
     actions: {
+      initState,
+      updateDB,
       setFileStatus,
       setRootPath,
+      renameFile,
+      removeDir,
       updateFile,
       updateCode,
       updateCodePosition,
@@ -59,10 +85,30 @@ export default {
   },
 
   data () {
+    let self = this
     return {
+      aceOptions: {
+        theme: 'ace/theme/github',
+        mode: 'ace/mode/html',
+        maxLines: 18,
+        minLines: 10,
+        fontSize: 13,
+        tabSize: 2,
+        displayIndentGuides: true,
+        showInvisibles: false,
+        showPrintMargin: false,
+        vScrollBarAlwaysVisible: true,
+        // 错误提示
+        useWorker: false,
+        wrap: 'off',
+        change (val) {
+          self.updateCode(val)
+        }
+      },
       showFileOption: false,
       showCode: false,
       showModal: false,
+      showSetting: false,
       curFileName: '',
       curModel: null,
       initCode: '',
@@ -70,20 +116,6 @@ export default {
     }
   },
   created () {
-    this.$on('getCode', (content, name, filePath) => {
-      // this.showCode = true
-      this.setFileStatus(name, filePath)
-      this.initCode = content
-      this.editor.setValue(content)
-      this.editor.focus()
-    })
-
-    /* this.$watch('code', (newVal) => {
-      if (newVal) {
-        this.updateFile(this.filepath, newVal)
-      }
-    })*/
-
     ipc.on('renameFileSuccess', (event, newPath) => {
       var model = this.$get('curModel')
       model.fullPath = newPath
@@ -110,7 +142,7 @@ export default {
 
     this.checkUpdate()
 
-    this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+    /* this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
       mode: {
         name: 'htmlmixed',
         scriptTypes: [{
@@ -148,6 +180,7 @@ export default {
       if (this.initCode !== newVal) {
         this.updateFile()
       }
+      this.updateDB()
     })
     this.editor.on('cursorActivity', instance => {
       var cursor = instance.getCursor()
@@ -156,15 +189,31 @@ export default {
         ch: cursor.ch + 1
       }
       this.updateCodePosition(codePosition)
-    })
+    })*/
+
+    this.initState(() => this.$emit('getCode', this.code, this.filename, this.filepath))
   },
   events: {
+    showSettingDialog () {
+      this.showSetting = true
+    },
+    getCode (content, name, filepath) {
+      let start = new Date().getTime()
+      this.setFileStatus(name, filepath)
+      this.initCode = content
+      this.updateCode(content)
+      // this.editor.setValue(content)
+      // this.editor.focus()
+      let end = new Date().getTime()
+      console.log('editor setValue timer:', end - start, 'ms')
+      this.updateDB()
+    },
     removeTreeNode (model, vm) {
       if (MERGE === model.name) {
         this.$set('showModal', true)
         return false
       }
-      ipc.send('removeDir', model.fullPath)
+      this.removeDir(model.fullPath)
       vm.$el.remove()
     },
 
@@ -179,7 +228,7 @@ export default {
       var model = this.$get('curModel')
 
       model.name = this.curFileName
-      ipc.send('renameFile', model.fullPath, this.curFileName)
+      this.renameFile(model.fullPath, this.curFileName)
     }
   },
   methods: {
@@ -193,6 +242,9 @@ export default {
         })
       }
     }
+  },
+  directives: {
+    dAce
   },
   components: {
     modal,

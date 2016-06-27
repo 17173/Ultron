@@ -6,3 +6,4 @@ app/logs/debug.log.*
 releases
 examples/**/out
 examples/**/merge
+examples/**/*.zip

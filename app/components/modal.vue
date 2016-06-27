@@ -8,20 +8,22 @@
     <div class="modal-dialog" role="document"
       v-bind:style="{'width': width + 'px'}">
       <div class="modal-content">
-        <slot name="modal-header">
-          <div class="modal-header">
+        <div class="modal-header">
+          <slot name="hd">
             <button type="button" class="close" @click="close"><span>&times;</span></button>
-            <h4 class="modal-title" >{{title}}</h4>
-          </div>
-        </slot>
-        <slot name="modal-body">
-          <div class="modal-body">{{content}}</div>
-        </slot>
-        <slot name="modal-footer">
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" @click="close">关闭</button>
-          </div>
-        </slot>
+            <h4 class="modal-title">{{title}}</h4>
+          </slot>
+        </div>
+        <div class="modal-body">
+          <slot name="bd">
+            {{content}}
+          </slot>
+        </div>
+        <div class="modal-footer">
+          <slot name="ft">
+            <button type="button" class="btn btn-secondary" @click="close">关闭</button>
+          </slot>
+        </div>
       </div>
     </div>
   </div>

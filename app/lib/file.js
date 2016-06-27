@@ -34,6 +34,7 @@ const file = module.exports = {
   },
 
   read: function(filepath, options) {
+    let start = new Date().getTime()
     options = options || {};
     var contents;
     logger.info('Reading ' + filepath + '...');
@@ -47,7 +48,8 @@ const file = module.exports = {
         if (!file.preserveBOM && contents.charCodeAt(0) === 0xFEFF) {
           contents = contents.substring(1);
         }
-
+        let end = new Date().getTime()
+        console.log('time:', end - start, 'ms')
         return contents;
       }
     } catch(e) {

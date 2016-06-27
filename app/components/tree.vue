@@ -2,7 +2,7 @@
   <li class="tree-item">
     <div class="tree-node" data-file="{{model.fullPath}}" 
       @mouseenter="hoverNode"
-      @click="activeNode(model.fullPath, model.name)"
+      @click="activeNode(model)"
       @dblclick="selectNode(model.fullPath, model.name)"
       @contextmenu.prevent="contextmenu(model)">
       <template v-for="level in model.level">
@@ -55,15 +55,17 @@ module.exports = {
         this.$el.classList.add(CLS_HOVER)
       }
     },
-    activeNode (filePath, fileName) {
+    activeNode (model) {
       if (this.isFolder) {
         this.open = !this.open
+        model.open = true
       } else {
         this.removeCls([CLS_HOVER, CLS_ACTIVE])
         this.$el.classList.add(CLS_ACTIVE)
-        var content = ipc.sendSync('readFile', filePath)
+        model.active = true
+        var content = ipc.sendSync('readFile', model.fullPath)
         // 向上传递
-        this.$dispatch('getCode', content, fileName, filePath)
+        this.$dispatch('getCode', content, model.name, model.fullPath)
       }
     },
     selectNode (filePath, fileName) {

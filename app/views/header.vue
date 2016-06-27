@@ -3,10 +3,11 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><img class="electron-icon" :src="logoUrl"><span class="project-name">奥创</span></a>
       <ul class="nav navbar-nav pull-right">
-        <li class="nav-item" v-show="rootPath"><a class="nav-link" href="javascript:;" @click="generate"><i class="fa fa-object-ungroup"></i> 生成</a></li>
-        <li class="nav-item" v-show="rootPath"><a class="nav-link" href="javascript:;" @click="compress"><i class="fa fa-file-zip-o"></i> 压缩</a></li>
+        <li class="nav-item" v-show="rootPath"><a class="nav-link" href="javascript:;" @click="generateFiles"><i class="fa fa-object-ungroup"></i> 生成</a></li>
+        <li class="nav-item" v-show="rootPath"><a class="nav-link" href="javascript:;" @click="compressFiles"><i class="fa fa-file-zip-o"></i> 压缩</a></li>
         <li class="nav-item" v-show="previewUrl"><a class="nav-link" :href="previewUrl" target="_blank"><i class="fa fa-eye"></i> 预览</a></li>
         <li class="nav-item"><a class="nav-link" href="javascript:;" @click="showRight = true"><i class="fa fa-question"></i> 帮助</a></li>
+        <li class="nav-item"><a class="nav-link" href="javascript:;" @click="onSetting"><i class="fa fa-wrench"></i> 设置</a></li>
       </ul>
     </div>
   </nav>
@@ -101,16 +102,8 @@
       })
     },
     methods: {
-      merge () {
-        this.mergeFiles()
-      },
-
-      generate () {
-        this.generateFiles()
-      },
-
-      compress () {
-        this.compressFiles()
+      onSetting () {
+        this.$dispatch('showSettingDialog')
       }
     },
     components: {
@@ -128,6 +121,6 @@
     margin-right: 0.4em;
   }
   .project-name {
-    
+
   }
 </style>

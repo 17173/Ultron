@@ -12,6 +12,9 @@ export const setRootPath = makeAction('SET_ROOT_PATH')
 export const mergeFiles = makeAction('MERGE_FILES')
 export const generateFiles = makeAction('GENERATE_FILES')
 export const compressFiles = makeAction('COMPRESS_FILES')
+export const initState = makeAction('INIT_STATE')
+export const updateDB = makeAction('UPDATE_DB')
+export const removeDir = makeAction('DELETE_DIR')
 
 function makeAction (type) {
   return ({ dispatch }, ...args) => dispatch(type, ...args)

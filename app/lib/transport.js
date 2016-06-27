@@ -91,7 +91,7 @@ module.exports = {
     $('body').attr('cms-node', 'made');
     if(this.fileName.indexOf('article-list') !== -1) {
       // include 文章列表页
-      var article_fragment_1 = fs.readFileSync(thisPath + '/app/template/inc-article-list/inc-article-list-1.shtml', {encoding:'utf8'});
+      var article_fragment_1 = fs.readFileSync(thisPath + '/static/template/inc-article-list/inc-article-list-1.shtml', {encoding:'utf8'});
       // ifCond传递'<' 引起dom节点匹配问题，暂时用转换字符解决
       $('div.pagination').length && $('div.pagination').first().after('\r\n' + article_fragment_1.replace('\'<\'', '\'&lt;\'') + '\r\n').remove();
       $('div[cms-include="article-list-page"]').length && $('div[cms-include="article-list-page"]').after('\r\n' + article_fragment_1.replace('\'<\'', '\'&lt;\'') + '\r\n').remove();
@@ -138,7 +138,7 @@ module.exports = {
         if(!!cid) {
           componentRepeat[cid] = content;
         }
-        var src = join(thisPath, 'app', 'template', 'component', type);
+        var src = join(thisPath, 'static', 'template', 'component', type);
         var componentValue = type + '-' + (!!cid ? cid : componentIds[type]++);
         var dst = join(self.fileGroupPath, componentValue);
         //var src = thisPath + '/template/component/' + type + '/',dst = self.fileGroupPath + '/' + type + '-' + (!!cid ? cid : componentIds[type]++) + '/';

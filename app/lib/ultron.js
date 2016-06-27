@@ -76,7 +76,7 @@ module.exports = {
 
 	// 压缩组件
 	compress: function(filePath, callback) {
-		fs.readdir(path.join(path.dirname(__dirname), 'template', 'component'), function(err, components){
+		fs.readdir(path.join(path.dirname(__dirname), 'static', 'template', 'component'), function(err, components){
 			if (err) {
 				return logger.info('err while reading files', err);
 			}

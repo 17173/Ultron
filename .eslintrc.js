@@ -4,7 +4,8 @@ module.exports = {
   extends: 'standard',
   // required to lint *.vue files
   "globals": {
-    "CodeMirror": true
+    "CodeMirror": true,
+    "ace": true
   },
   plugins: [
     'html'

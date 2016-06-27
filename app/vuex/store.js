@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import jetpack from 'fs-jetpack'
 import {ipcRenderer} from 'electron'
 
 Vue.use(Vuex)
@@ -14,10 +15,32 @@ const state = {
     line: 1,
     ch: 1
   },
+  articleModule: 'article-zhuanqu-v3',
   open: false
 }
 
 const mutations = {
+  INIT_STATE (state, callback) {
+    let data = jetpack.read('db.json', 'json')
+    if (data) {
+      state.filepath = data.filepath
+      state.filename = data.filename
+      state.rootPath = data.rootPath
+      state.code = data.code
+      state.articleModule = data.articleModule
+      ipcRenderer.send('loadFiles', data.rootPath)
+      callback()
+    }
+  },
+  UPDATE_DB (state) {
+    jetpack.write('db.json', {
+      rootPath: state.rootPath,
+      filepath: state.filepath,
+      filename: state.filename,
+      code: state.code,
+      articleModule: state.articleModule
+    })
+  },
   SET_ROOT_PATH (state, rootPath) {
     state.rootPath = rootPath
   },
@@ -30,6 +53,10 @@ const mutations = {
   },
   UPDATE_FILE (state) {
     ipcRenderer.send('writeFile', state.filepath, state.code)
+  },
+
+  DELETE_DIR (state, filepath) {
+    ipcRenderer.send('removeDir', filepath)
   },
 
   UPDATE_ALL_FILES (state) {
