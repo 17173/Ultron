@@ -37,7 +37,7 @@ module.exports = {
 		  	logger.info('latest version: %s', version);
 		  	logger.info('current version: %s', app.getVersion());
 
-		  	if (version && version > app.getVersion() ) {
+		  	if (version && version > app.getVersion() ) { 
 		  		clipboard.writeText(join(HOST, version, INSTALL_NAME));
 		  		dialog.showMessageBox({
 		  			type: 'info',

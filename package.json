@@ -12,6 +12,7 @@
     "build:win": "electron-builder \"releases/Ultron-win32-ia32\" --platform=win --out=\"dist/win\" --config=packager.json",
     "release:win": "npm run build && npm run package:win && npm run build:win",
     "push": "git push ssh://git@ued.local.17173.com:10022/cms3/ultron.git",
+    "qn": "node qiniu",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e"
@@ -50,6 +51,8 @@
     "express": "^4.13.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.4",
+    "gulp": "^3.9.1",
+    "gulp-qiniu": "^0.2.4",
     "html-webpack-plugin": "^2.8.1",
     "http-proxy-middleware": "^0.11.0",
     "inject-loader": "^2.0.1",
@@ -88,5 +91,9 @@
     "node-sass": "^3.7.0",
     "sass-loader": "^3.2.0",
     "vuex": "^0.6.3"
-  }
+  },
+  "articleMods": [
+    "article-zhuanqu-v2",
+    "article-zhuanqu-v3"
+  ]
 }
