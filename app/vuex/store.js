@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import jetpack from 'fs-jetpack'
-import {ipcRenderer} from 'electron'
+import {ipcRenderer, remote} from 'electron'
 
 Vue.use(Vuex)
+
+const userPath = remote.app.getPath('userData')
 
 const state = {
   treeData: {},
@@ -12,8 +14,8 @@ const state = {
   rootPath: '',
   code: '',
   codePosition: {
-    line: 1,
-    ch: 1
+    row: 1,
+    column: 1
   },
   articleModule: 'article-zhuanqu-v3',
   open: false
@@ -21,25 +23,30 @@ const state = {
 
 const mutations = {
   INIT_STATE (state, callback) {
-    let data = jetpack.read('db.json', 'json')
+    let data = jetpack.read(`${userPath}/db.json`, 'json')
     if (data) {
       state.filepath = data.filepath
       state.filename = data.filename
       state.rootPath = data.rootPath
       state.code = data.code
+      state.treeData = data.treeData || {}
       state.articleModule = data.articleModule
-      ipcRenderer.send('loadFiles', data.rootPath)
+      !state.treeData.hasOwnProperty('open') && ipcRenderer.send('loadFiles', data.rootPath)
       callback()
     }
   },
   UPDATE_DB (state) {
-    jetpack.write('db.json', {
+    jetpack.write(`${userPath}/db.json`, {
       rootPath: state.rootPath,
       filepath: state.filepath,
       filename: state.filename,
       code: state.code,
+      treeData: state.treeData,
       articleModule: state.articleModule
     })
+  },
+  SET_ARTICLE_MODULE (state, val) {
+    state.articleModule = val
   },
   SET_ROOT_PATH (state, rootPath) {
     state.rootPath = rootPath
@@ -70,7 +77,7 @@ const mutations = {
   RENAME_FILE (state, filepath, newName) {
     ipcRenderer.send('renameFile', filepath, newName)
   },
-  GET_FILE (state, filepath) {
+  READ_FILE (state, filepath) {
     state.code = ipcRenderer.sendSync('readFile', filepath)
   },
   UPDATE_CODE (state, code) {

@@ -14,7 +14,7 @@
 
 <template>
   <footer class="footer">
-    行 {{codePosition.line}}, 列 {{codePosition.ch}}
+    行 {{codePosition.row}}, 列 {{codePosition.column}}
   </footer>
 </template>
 

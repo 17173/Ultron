@@ -14,7 +14,7 @@
   <div class="project-files">
     <h3 class="sidebar-title">folders</h3>
     <ul class="tree">
-      <tree :model="treeData"></tree>
+      <tree :model="treeData" :filepath="filepath"></tree>
     </ul>
   </div>
 </template>
@@ -35,6 +35,7 @@
     vuex: {
       getters: {
         treeData: state => state.treeData,
+        filepath: state => state.filepath,
         open: state => state.open
       },
       actions: {
@@ -62,6 +63,7 @@
         this.setTreeData({
           name: projectName,
           fullPath: rootPath,
+          open: true,
           children: files
         })
         this.setRootPath(rootPath)
@@ -71,12 +73,12 @@
 
     created () {
       var self = this
-      this.$on('selectNode', (filePath, fileName) => {
+      this.$on('selectNode', (filepath, filename) => {
         var exist = false
         var files = self.$get('selectedFiles')
 
         files.forEach(item => {
-          if (item.fullPath === filePath) {
+          if (item.fullPath === filepath) {
             exist = true
             return false
           }
@@ -84,8 +86,8 @@
 
         if (!exist) {
           files.push({
-            name: fileName,
-            fullPath: filePath
+            name: filename,
+            fullPath: filepath
           })
           self.$set('selectedFiles', files)
         }

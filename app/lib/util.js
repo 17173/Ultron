@@ -78,6 +78,7 @@ var dirToTree = function(filePath, dirs, rootLength) {
           name: name,
           level: level,
           fullPath: fullPath,
+          open: false,
           children: [],
         });
       } else {

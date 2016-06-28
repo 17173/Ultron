@@ -1,5 +1,5 @@
 <template>
-  <li class="tree-item">
+  <li class="tree-item" :class="{active: isActived}">
     <div class="tree-node" data-file="{{model.fullPath}}" 
       @mouseenter="hoverNode"
       @click="activeNode(model)"
@@ -9,19 +9,18 @@
         <span class="tree-indent"></span>
       </template>
       <i class="fa" :class="{
-        'fa-angle-right': !open,
-        'fa-angle-down': open
+        'fa-angle-right': !model.open,
+        'fa-angle-down': model.open
         }" v-if="isFolder"></i>
       <span class="tree-node-name">{{model.name}}</span>
     </div>
-    <ul class="tree-children" v-show="open" v-if="isFolder">
-      <tree v-for="model in model.children" :model="model"></tree>
+    <ul class="tree-children" v-show="model.open" v-if="isFolder">
+      <tree v-for="model in model.children" :model="model" :filepath="filepath"></tree>
     </ul>
   </li>
 </template>
 
 <script>
-const ipc = require('electron').ipcRenderer
 const remote = require('electron').remote
 const Menu = remote.Menu
 const MenuItem = remote.MenuItem
@@ -32,7 +31,7 @@ const CLS_HOVER = 'hover'
 module.exports = {
   replace: true,
   name: 'tree',
-  props: ['model'],
+  props: ['model', 'filepath'],
   data () {
     return {
       curFile: '',
@@ -43,6 +42,9 @@ module.exports = {
   computed: {
     isFolder () {
       return this.model.children && this.model.children.length
+    },
+    isActived () {
+      return this.filepath === this.model.fullPath
     }
   },
 
@@ -58,14 +60,12 @@ module.exports = {
     activeNode (model) {
       if (this.isFolder) {
         this.open = !this.open
-        model.open = true
+        model.open = !model.open
       } else {
-        this.removeCls([CLS_HOVER, CLS_ACTIVE])
-        this.$el.classList.add(CLS_ACTIVE)
-        model.active = true
-        var content = ipc.sendSync('readFile', model.fullPath)
-        // 向上传递
-        this.$dispatch('getCode', content, model.name, model.fullPath)
+        if (this.$el.classList.contains(CLS_ACTIVE)) {
+          return
+        }
+        this.$dispatch('onTreeClick', model.fullPath, model.name)
       }
     },
     selectNode (filePath, fileName) {

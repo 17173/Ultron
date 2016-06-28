@@ -7,8 +7,7 @@
       </div>
       <div class="main">
         <div class="page-header">{{filename}}</div>
-        <div id="holder" class="holder" v-show="showCode">拖放文件到这里</div>
-        <textarea id="code" v-ace="code" :options="aceOptions"></textarea>
+        <textarea id="code"></textarea>
       </div>
     </div>
   </div>
@@ -19,7 +18,7 @@
     <div slot="bd">
       <form>
         <fieldset class="form-group">
-          <label for="exampleInputEmail1">文章终极页正文模板</label>
+          <label>文章终极页正文模板</label>
           <select class="form-control">
             <option value="article-zhuanqu-v3">article-zhuanqu-v3.shtml</option>
             <option value="article-zhuanqu-v2">article-zhuanqu-v2.shtml</option>
@@ -36,8 +35,6 @@
 import fileOption from './components/option.vue'
 import modal from './components/modal.vue'
 
-import dAce from './directives/ace'
-
 import headerView from './views/header.vue'
 import footerView from './views/footer.vue'
 import sidebarView from './views/sidebar.vue'
@@ -47,6 +44,7 @@ import {
   initState,
   updateDB,
   removeDir,
+  readFile,
   setFileStatus,
   setRootPath,
   renameFile,
@@ -73,6 +71,7 @@ export default {
     actions: {
       initState,
       updateDB,
+      readFile,
       setFileStatus,
       setRootPath,
       renameFile,
@@ -85,12 +84,11 @@ export default {
   },
 
   data () {
-    let self = this
     return {
       aceOptions: {
         theme: 'ace/theme/github',
         mode: 'ace/mode/html',
-        maxLines: 18,
+        maxLines: Infinity,
         minLines: 10,
         fontSize: 13,
         tabSize: 2,
@@ -100,10 +98,7 @@ export default {
         vScrollBarAlwaysVisible: true,
         // 错误提示
         useWorker: false,
-        wrap: 'off',
-        change (val) {
-          self.updateCode(val)
-        }
+        wrap: 'on'
       },
       showFileOption: false,
       showCode: false,
@@ -111,7 +106,6 @@ export default {
       showSetting: false,
       curFileName: '',
       curModel: null,
-      initCode: '',
       oldFileName: ''
     }
   },
@@ -123,91 +117,38 @@ export default {
     })
   },
   ready () {
-    const holder = document.getElementById('holder')
-    holder.ondragover = () => {
-      return false
-    }
-    holder.ondragleave = holder.ondragend = () => {
-      return false
-    }
-    holder.ondrop = (e) => {
-      e.preventDefault()
-      const file = e.dataTransfer.files[0]
-      if (file) {
-        this.showCode = true
-        ipc.send('loadFiles', file.path)
-      }
-      return false
-    }
-
     this.checkUpdate()
+    let editor = this.editor = ace.edit(document.getElementById('code'))
 
-    /* this.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-      mode: {
-        name: 'htmlmixed',
-        scriptTypes: [{
-          matches: /\/x-handlebars-template|\/x-mustache/i,
-          mode: null
-        }]
-      },
-      keyMap: 'sublime',
-      lineNumbers: true,
-      tabSize: 2,
-      // autofocus: true,
-      lineWrapping: true,
-      foldGutter: true,
-      gutters: ['CodeMirror-lint-markers', 'CodeMirror-focused', 'CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-      styleActiveLine: true,
-      matchBrackets: true,
-      lint: false,
-      autoCloseBrackets: true,
-      autoCloseTags: true,
-      showCursorWhenSelecting: true,
-      highlightSelectionMatches: {
-        showToken: /\w/
-      },
-      matchTags: {
-        bothTags: true
-      },
-      // 显示行末尾多余的空白
-      showTrailingSpace: true,
-      scrollbarStyle: 'overlay'
-    })
-    this.editor.on('change', () => {
-      let newVal = this.editor.getValue()
-
-      this.updateCode(newVal)
-      if (this.initCode !== newVal) {
-        this.updateFile()
-      }
+    editor.setOptions(this.aceOptions)
+    editor.$blockScrolling = Infinity
+    editor.on('change', () => {
+      this.updateCode(editor.getValue())
+      this.updateFile()
       this.updateDB()
     })
-    this.editor.on('cursorActivity', instance => {
-      var cursor = instance.getCursor()
-      var codePosition = {
-        line: cursor.line + 1,
-        ch: cursor.ch + 1
-      }
-      this.updateCodePosition(codePosition)
-    })*/
+    editor.session.selection.on('changeCursor', () => {
+      let pos = editor.getCursorPosition()
 
-    this.initState(() => this.$emit('getCode', this.code, this.filename, this.filepath))
+      pos.row = pos.row + 1
+      pos.column = pos.column + 1
+      this.updateCodePosition(pos)
+    })
+    editor.moveCursorTo(0, 0)
+    this.initState(() => this.renderEditor())
   },
   events: {
     showSettingDialog () {
       this.showSetting = true
     },
-    getCode (content, name, filepath) {
-      let start = new Date().getTime()
-      this.setFileStatus(name, filepath)
-      this.initCode = content
-      this.updateCode(content)
-      // this.editor.setValue(content)
-      // this.editor.focus()
-      let end = new Date().getTime()
-      console.log('editor setValue timer:', end - start, 'ms')
+    onTreeClick (filepath, filename) {
+      this.readFile(filepath)
+
+      this.setFileStatus(filename, filepath)
+      this.renderEditor()
       this.updateDB()
     },
+
     removeTreeNode (model, vm) {
       if (MERGE === model.name) {
         this.$set('showModal', true)
@@ -241,10 +182,15 @@ export default {
           self.updateTreeData(item)
         })
       }
+    },
+
+    renderEditor () {
+      let t1 = new Date().getTime()
+      this.editor.setValue(this.code)
+      this.editor.moveCursorTo(0, 0)
+      let t2 = new Date().getTime()
+      console.info('%c[ultron info] ace.setValue spend %d ms', 'color: #f00', t2 - t1)
     }
-  },
-  directives: {
-    dAce
   },
   components: {
     modal,
