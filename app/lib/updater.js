@@ -1,15 +1,10 @@
-'use strict';
-
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const join = path.join;
 const http = require('http');
 
-const electron = require('electron');
-const app = electron.app;
-const dialog = electron.dialog;
-const clipboard = electron.clipboard;
+import {app, dialog, clipboard, ipcMain} from 'electron'
 
 const logger = require('./logger');
 
@@ -26,13 +21,19 @@ const options = {
 };
 
 module.exports = {
-	checkUpdate() {
+	checkUpdate(event) {
 		logger.info('Checking update info...');
 
 		var req = http.request(options, (res) => {
 		  res.on('data', (pkg) => {
-		  	pkg = JSON.parse(pkg);
-		  	var version = pkg.version;
+		  	if (!pkg) {
+		  		return
+		  	}
+		  	pkg = JSON.parse(pkg)
+		  	var version = pkg.version
+		  	// console.log('checkUpdate ', callback)
+		  	// typeof callback === 'function' && callback(pkg.articleMods)
+		  	event.sender.send('afterCheckUpdate', pkg.articleMods)
 
 		  	logger.info('latest version: %s', version);
 		  	logger.info('current version: %s', app.getVersion());

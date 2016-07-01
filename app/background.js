@@ -44,13 +44,13 @@ app.on('ready', () => {
     console.log('registration failed')
   }
 
-  const processFiles = (event, filePath) => {
-    if (filePath) {
-      if (file.exists(join(filePath, MERGE_PATH))) {
-        loadFiles(event, filePath)
+  const processFiles = (event, filepath) => {
+    if (filepath) {
+      if (file.exists(join(filepath, MERGE_PATH))) {
+        loadFiles(event, filepath)
       } else {
-        ultron.merge(filePath, () => {
-          loadFiles(event, filePath)
+        ultron.merge(filepath, () => {
+          loadFiles(event, filepath)
         })
       }
     }
@@ -58,35 +58,35 @@ app.on('ready', () => {
 
   // 打开文件浏览框
   ipcMain.on('openDialog', (event) => {
-    var filePath = dialog.showOpenDialog({properties: [ 'openFile', 'openDirectory', 'multiSelections' ]})
-    var curPath = filePath && filePath[0]
+    var filepath = dialog.showOpenDialog({properties: [ 'openFile', 'openDirectory', 'multiSelections' ]})
+    var curPath = filepath && filepath[0]
 
     processFiles(event, curPath)
   })
 
-  ipcMain.on('loadFiles', (event, filePath) => {
-    processFiles(event, filePath)
+  ipcMain.on('loadFiles', (event, filepath) => {
+    processFiles(event, filepath)
   })
 
   // 更新文件
-  ipcMain.on('updateFiles', (event, filePath) => {
-    loadFiles(event, filePath)
+  ipcMain.on('updateFiles', (event, filepath) => {
+    loadFiles(event, filepath)
   })
 
   // 读文件
-  ipcMain.on('readFile', (event, filePath) => {
+  ipcMain.on('readFile', (event, filepath) => {
     var value = null
-    if (file.exists(filePath)) {
-      value = file.read(filePath)
+    if (file.exists(filepath)) {
+      value = file.read(filepath)
     }
     event.returnValue = value
   })
 
   // 写文件
-  ipcMain.on('writeFile', (event, filePath, content) => {
-    if (!file.exists(filePath)) return
+  ipcMain.on('writeFile', (event, filepath, content) => {
+    if (!file.exists(filepath)) return
 
-    file.write(filePath, content)
+    file.write(filepath, content)
   })
 
   // 合并文件
@@ -97,8 +97,8 @@ app.on('ready', () => {
   })
 
   // 删除目录
-  ipcMain.on('removeDir', (event, filePath) => {
-    file.rmdirSync(filePath)
+  ipcMain.on('removeDir', (event, filepath) => {
+    file.rmdirSync(filepath)
   })
 
   // 异步更改文件路径
@@ -118,8 +118,8 @@ app.on('ready', () => {
     event.returnValue = join(path.dirname(oldPath), newFileName)
   })
 
-  ipcMain.on('joinPath', (event, filePath, fileName) => {
-    event.returnValue = join(filePath, fileName)
+  ipcMain.on('joinPath', (event, filepath, fileName) => {
+    event.returnValue = join(filepath, fileName)
   })
 
   // 生产处理过的文件
@@ -143,15 +143,19 @@ app.on('ready', () => {
   })
 
   // 检查软件更新
-  ipcMain.on('checkUpdate', () => updater.checkUpdate())
+  ipcMain.on('checkUpdate', (event) => {
+    updater.checkUpdate(event)
+  })
 })
 
 // 载入文件
-function loadFiles (event, filePath) {
-  var files = util.dirToTree(filePath)
+function loadFiles (event, filepath) {
+  console.log('explore filepath ', filepath)
+  if (!filepath) return
+  var files = util.dirToTree(filepath)
 
   if (!files) {
     return false
   }
-  event.sender.send('getFiles', path.basename(filePath), files, filePath)
+  event.sender.send('getFiles', path.basename(filepath), files, filepath)
 }

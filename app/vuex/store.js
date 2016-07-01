@@ -6,7 +6,7 @@ import {ipcRenderer, remote} from 'electron'
 Vue.use(Vuex)
 
 const userPath = remote.app.getPath('userData')
-
+console.log('userData path %s', userPath)
 const state = {
   treeData: {},
   filepath: '',
@@ -17,22 +17,25 @@ const state = {
     row: 1,
     column: 1
   },
-  articleModule: 'article-zhuanqu-v3',
-  open: false
+  articleModule: null
 }
 
 const mutations = {
-  INIT_STATE (state, callback) {
+  INIT_STATE (state, success, error) {
     let data = jetpack.read(`${userPath}/db.json`, 'json')
     if (data) {
+      console.log('userData: ', data)
       state.filepath = data.filepath
       state.filename = data.filename
       state.rootPath = data.rootPath
       state.code = data.code
       state.treeData = data.treeData || {}
       state.articleModule = data.articleModule
+      console.log('init articleModule:', state.articleModule)
       !state.treeData.hasOwnProperty('open') && ipcRenderer.send('loadFiles', data.rootPath)
-      callback()
+      typeof success === 'function' && success()
+    } else {
+      typeof error === 'function' && error()
     }
   },
   UPDATE_DB (state) {
@@ -46,6 +49,7 @@ const mutations = {
     })
   },
   SET_ARTICLE_MODULE (state, val) {
+    console.log('set articleModule value', val)
     state.articleModule = val
   },
   SET_ROOT_PATH (state, rootPath) {
@@ -56,7 +60,6 @@ const mutations = {
   },
   SET_TREE_DATA (state, data) {
     state.treeData = data
-    state.open = true
   },
   UPDATE_FILE (state) {
     ipcRenderer.send('writeFile', state.filepath, state.code)
@@ -87,7 +90,8 @@ const mutations = {
     ipcRenderer.send('checkUpdate')
   },
   UPDATE_CODE_POSITION (state, codePosition) {
-    state.codePosition = codePosition
+    state.codePosition.row = codePosition.row
+    state.codePosition.column = codePosition.column
   },
 
   MERGE_FILES (state) {

@@ -12,6 +12,14 @@ const path = require('path'),
 
 const logger = require('./logger');
 
+const DB_DATA = fs.readFileSync(join(app.getPath('userData'), 'db.json'), {encoding: 'utf8'})
+let articleModule = 'article-zhuanqu-v3'
+if (DB_DATA) {
+  articleModule = JSON.parse(DB_DATA).articleModule.value
+}
+
+import {app} from 'electron'
+
 module.exports = {
   init: function(data,fileName,fileGroupPath,root, execType) {
     this.data = data;
@@ -87,6 +95,7 @@ module.exports = {
     // ifCond传递'<' 引起dom节点匹配问题，暂时用转换字符解决
     var $ = cheerio.load(this.data.replace(/'<'/g, '\'&lt;\''),{decodeEntities: false}),
         self = this;
+    
     //添加特殊标示，以便于去除col的样式影响。
     $('body').attr('cms-node', 'made');
     if(this.fileName.indexOf('article-list') !== -1) {
@@ -95,7 +104,7 @@ module.exports = {
       // ifCond传递'<' 引起dom节点匹配问题，暂时用转换字符解决
       $('div.pagination').length && $('div.pagination').first().after('\r\n' + article_fragment_1.replace('\'<\'', '\'&lt;\'') + '\r\n').remove();
       $('div[cms-include="article-list-page"]').length && $('div[cms-include="article-list-page"]').after('\r\n' + article_fragment_1.replace('\'<\'', '\'&lt;\'') + '\r\n').remove();
-    } else if (this.fileName.indexOf('article') !== -1) {
+    } else {
       /*// include 文章终极页
       var article_fragment_1 = fs.readFileSync(thisPath + '/template/inc-article/inc-article-1.shtml', {encoding:'utf8'}),
           article_fragment_2 = fs.readFileSync(thisPath + '/template/inc-article/inc-article-2.shtml', {encoding:'utf8'}),
@@ -106,8 +115,7 @@ module.exports = {
       }).after('\r\n' + article_fragment_1 + '\r\n');
 
       $('head script').last().after('\r\n' + article_fragment_2 + '\r\n');*/
-
-      $('div[cms-include="article"]').after('<cmsmodule path="global-modules/article-zhuanqu-v3.shtml"/>').remove();
+      $('div[cms-include="article"]').after(`<cmsmodule path="global-modules/${articleModule}.shtml"/>`).remove();
     }
 
     //添加cms标签

@@ -19,7 +19,7 @@
             {{content}}
           </slot>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" v-if="hasFooter">
           <slot name="ft">
             <button type="button" class="btn btn-secondary" @click="close">关闭</button>
           </slot>
@@ -61,6 +61,10 @@ export default {
       default: 'fade'
     },
     backdrop: {
+      type: Boolean,
+      default: true
+    },
+    hasFooter: {
       type: Boolean,
       default: true
     }

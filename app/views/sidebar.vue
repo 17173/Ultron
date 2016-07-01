@@ -2,7 +2,7 @@
   <div class="explore">
     <span class="text-uppercase">explore</span> 
     <span class="pull-right" @click="openFileDialog"><i class="fa fa-files-o"></i> 打开</span>
-    <span class="pull-right refresh-file" v-show="open" @click="updateAllFiles"><i class="fa fa-refresh"></i> 刷新</span>
+    <span class="pull-right refresh-file" v-show="filepath" @click="updateAllFiles"><i class="fa fa-refresh"></i> 刷新</span>
   </div>
   <!-- <div class="working-files">
     <h3 class="sidebar-title">open files</h3>
@@ -26,6 +26,7 @@
     setRootPath,
     openFileDialog,
     updateDB,
+    readFile,
     updateAllFiles
   } from '../vuex/actions'
 
@@ -35,12 +36,12 @@
     vuex: {
       getters: {
         treeData: state => state.treeData,
-        filepath: state => state.filepath,
-        open: state => state.open
+        filepath: state => state.filepath
       },
       actions: {
         setTreeData,
         setRootPath,
+        readFile,
         openFileDialog,
         updateDB,
         updateAllFiles
@@ -66,6 +67,7 @@
           open: true,
           children: files
         })
+        // this.readFile(this.filepath)
         this.setRootPath(rootPath)
         this.updateDB()
       })

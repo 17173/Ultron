@@ -15,7 +15,7 @@ const uploadToQiniu = (dir) => {
 }
 
 gulp.task('package', function() {
-  return gulp.src('./package.json')
+  return gulp.src('./app/package.json')
     .pipe(uploadToQiniu('/'))
 })
 

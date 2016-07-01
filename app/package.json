@@ -18,5 +18,15 @@
     "rimraf": "^2.4.3",
     "slack-node": "^0.2.0",
     "walk": "^2.3.9"
-  }
+  },
+  "articleMods": [
+    {
+      "value": "article-zhuanqu-v2",
+      "label": "article-zhuanqu-v2.shtml(v2巴拉巴拉)"
+    }, {
+      "value": "article-zhuanqu-v3",
+      "default": true,
+      "label": "article-zhuanqu-v3.shtml(v3巴拉巴拉)"
+    }
+  ]
 }

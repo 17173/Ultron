@@ -14,24 +14,29 @@
   <footer-view></footer-view>
   <file-option :show.sync="showFileOption" :file-name.sync="curFileName"></file-option>
   <modal :show.sync="showModal" title="提示信息" content="不能删除 merge 目录！"></modal>
-  <modal :show.sync="showSetting" title="设置">
+  <modal :show.sync="showSetting" title="设置" :has-footer="false">
     <div slot="bd">
       <form>
         <fieldset class="form-group">
           <label>文章终极页正文模板</label>
-          <select class="form-control">
-            <option value="article-zhuanqu-v3">article-zhuanqu-v3.shtml</option>
-            <option value="article-zhuanqu-v2">article-zhuanqu-v2.shtml</option>
-          </select>
+          <multiselect
+            :selected="articleModule"
+            :options="articleMods"
+            :on-change="onChangeArticle"
+            :multiple="false"
+            :searchable="false"
+            placeholoder="请选择"
+            label="label"
+            key="value"
+          >
+          </multiselect>
         </fieldset>
       </form>
-    </div>
-    <div slot="ft">
-      <button type="button" class="btn btn-primary">保存</button>
     </div>
   </modal>
 </template>
 <script>
+import Multiselect from 'vue-multiselect'
 import fileOption from './components/option.vue'
 import modal from './components/modal.vue'
 
@@ -46,6 +51,7 @@ import {
   removeDir,
   readFile,
   setFileStatus,
+  setArticleModule,
   setRootPath,
   renameFile,
   updateFile,
@@ -66,7 +72,8 @@ export default {
       filename: state => state.filename,
       code: state => state.code,
       rootPath: state => state.rootPath,
-      codePosition: state => state.codePosition
+      codePosition: state => state.codePosition,
+      articleModule: state => state.articleModule
     },
     actions: {
       initState,
@@ -74,6 +81,7 @@ export default {
       readFile,
       setFileStatus,
       setRootPath,
+      setArticleModule,
       renameFile,
       removeDir,
       updateFile,
@@ -83,23 +91,27 @@ export default {
     }
   },
 
+  /* watch: {
+    code (newVal) {
+      console.log('watch code')
+      if (newVal && this.editor) {
+        this.silent = true
+        this.editor.setValue(newVal)
+        this.editor.moveCursorTo(0, 0)
+        this.silent = false
+      }
+    },
+
+    codePosition (newVal) {
+      if (newVal && this.editor) {
+        this.editor.moveCursorTo(newVal.row - 1, newVal.column - 1)
+      }
+    }
+  },*/
+
   data () {
     return {
-      aceOptions: {
-        theme: 'ace/theme/github',
-        mode: 'ace/mode/html',
-        maxLines: Infinity,
-        minLines: 10,
-        fontSize: 13,
-        tabSize: 2,
-        displayIndentGuides: true,
-        showInvisibles: false,
-        showPrintMargin: false,
-        vScrollBarAlwaysVisible: true,
-        // 错误提示
-        useWorker: false,
-        wrap: 'on'
-      },
+      articleMods: [],
       showFileOption: false,
       showCode: false,
       showModal: false,
@@ -110,32 +122,27 @@ export default {
     }
   },
   created () {
+    this.silent = false
     ipc.on('renameFileSuccess', (event, newPath) => {
       var model = this.$get('curModel')
       model.fullPath = newPath
-      self.updateTreeData(model)
+      this.updateTreeData(model)
+    })
+    ipc.on('afterCheckUpdate', (event, articleMods) => {
+      this.articleMods = articleMods
+      if (!this.articleModule) {
+        let articleModule = articleMods.filter(item => item.default)[0]
+        this.setArticleModule(articleModule)
+        this.updateDB()
+      }
     })
   },
   ready () {
     this.checkUpdate()
-    let editor = this.editor = ace.edit(document.getElementById('code'))
 
-    editor.setOptions(this.aceOptions)
-    editor.$blockScrolling = Infinity
-    editor.on('change', () => {
-      this.updateCode(editor.getValue())
-      this.updateFile()
-      this.updateDB()
-    })
-    editor.session.selection.on('changeCursor', () => {
-      let pos = editor.getCursorPosition()
+    this.initEditor()
 
-      pos.row = pos.row + 1
-      pos.column = pos.column + 1
-      this.updateCodePosition(pos)
-    })
-    editor.moveCursorTo(0, 0)
-    this.initState(() => this.renderEditor())
+    this.initState(() => this.renderEditor(), () => this.updateDB())
   },
   events: {
     showSettingDialog () {
@@ -143,7 +150,6 @@ export default {
     },
     onTreeClick (filepath, filename) {
       this.readFile(filepath)
-
       this.setFileStatus(filename, filepath)
       this.renderEditor()
       this.updateDB()
@@ -184,16 +190,62 @@ export default {
       }
     },
 
+    initEditor () {
+      let editor = this.editor = ace.edit(document.getElementById('code'))
+
+      editor.setOptions({
+        theme: 'ace/theme/github',
+        mode: 'ace/mode/html',
+        maxLines: Infinity,
+        minLines: 10,
+        fontSize: 13,
+        tabSize: 2,
+        displayIndentGuides: true,
+        showInvisibles: false,
+        showPrintMargin: false,
+        vScrollBarAlwaysVisible: false,
+        // 错误提示
+        useWorker: false,
+        wrap: 'off'
+      })
+      editor.$blockScrolling = Infinity
+      editor.on('change', () => {
+        if (this.silent) return
+        console.log('editor change and cursor position: ', this.editor.getCursorPosition())
+        this.updateCode(editor.getValue())
+        this.updateFile()
+        this.updateDB()
+      })
+      editor.session.selection.on('changeCursor', () => {
+        let pos = editor.getCursorPosition()
+
+        pos.row = pos.row + 1
+        pos.column = pos.column + 1
+        this.updateCodePosition(pos)
+      })
+      // editor.moveCursorTo(0, 0)
+    },
+
     renderEditor () {
       let t1 = new Date().getTime()
+      this.silent = true
       this.editor.setValue(this.code)
       this.editor.moveCursorTo(0, 0)
+      this.silent = false
       let t2 = new Date().getTime()
       console.info('%c[ultron info] ace.setValue spend %d ms', 'color: #f00', t2 - t1)
+    },
+
+    onChangeArticle (obj) {
+      if (!obj) return
+      console.log('change article value ', obj)
+      this.setArticleModule(obj)
+      this.updateDB()
     }
   },
   components: {
     modal,
+    Multiselect,
     fileOption,
     headerView,
     sidebarView,
