@@ -13,6 +13,7 @@ const state = {
   filename: 'untitled',
   rootPath: '',
   code: '',
+  treeWidth: 360,
   codePosition: {
     row: 1,
     column: 1
@@ -22,8 +23,9 @@ const state = {
 
 const mutations = {
   INIT_STATE (state, success, error) {
-    let data = jetpack.read(`${userPath}/db.json`, 'json')
-    if (data) {
+    let dbpath = `${userPath}/db.json`
+    if (jetpack.exists(dbpath)) {
+      let data = jetpack.read(dbpath, 'json')
       console.log('userData: ', data)
       state.filepath = data.filepath
       state.filename = data.filename
@@ -60,6 +62,9 @@ const mutations = {
   },
   SET_TREE_DATA (state, data) {
     state.treeData = data
+  },
+  SET_TREE_WIDTH (state, width) {
+    state.treeWidth = width
   },
   UPDATE_FILE (state) {
     ipcRenderer.send('writeFile', state.filepath, state.code)

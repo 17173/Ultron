@@ -16,6 +16,7 @@ export const initState = makeAction('INIT_STATE')
 export const updateDB = makeAction('UPDATE_DB')
 export const removeDir = makeAction('DELETE_DIR')
 export const setArticleModule = makeAction('SET_ARTICLE_MODULE')
+export const setTreeWidth = makeAction('SET_TREE_WIDTH')
 
 function makeAction (type) {
   return ({ dispatch }, ...args) => dispatch(type, ...args)

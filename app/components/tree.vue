@@ -111,9 +111,15 @@ module.exports = {
   list-style: none;
 }
 .tree {
-  padding: 0;
+  padding: 10px 0 0 10px;
+  margin: 0;
   color: #666;
   font-size: 15px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
 }
 .tree-node {
   padding: 8px 0;

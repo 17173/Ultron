@@ -1,20 +1,18 @@
 <style>
 .footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
   width: 100%;
   height: 30px;
-  z-index: 1001;
+  line-height: 30px;
   background: #DFE1E8;
-  padding: 4px;
   color: #999;
+  padding: 0 10px;
+  font-size: 11px;
 }
 </style>
 
 <template>
   <footer class="footer">
-    行 {{codePosition.row}}, 列 {{codePosition.column}}
+    {{filename}} {{codePosition.row}}:{{codePosition.column}}
   </footer>
 </template>
 
@@ -22,6 +20,7 @@
 module.exports = {
   vuex: {
     getters: {
+      filename: state => state.filename,
       codePosition: state => state.codePosition
     }
   }

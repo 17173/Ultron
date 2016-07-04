@@ -2,7 +2,7 @@
  * 转换 shtml 文件内容为 handlebars 模板
  */
 'use strict';
-
+import jetpack from 'fs-jetpack'
 const path = require('path'),
   join = path.join,
   fs = require('fs'),
@@ -12,11 +12,12 @@ const path = require('path'),
 
 const logger = require('./logger');
 
-const DB_DATA = fs.readFileSync(join(app.getPath('userData'), 'db.json'), {encoding: 'utf8'})
-let articleModule = 'article-zhuanqu-v3'
-if (DB_DATA) {
-  articleModule = JSON.parse(DB_DATA).articleModule.value
-}
+const DB_PATH = join(app.getPath('userData'), 'db.json')
+const pkg = require('../package.json')
+
+let articleModule = pkg.articleMods.filter(item => item.default)[0].value
+
+
 
 import {app} from 'electron'
 
@@ -95,16 +96,19 @@ module.exports = {
     // ifCond传递'<' 引起dom节点匹配问题，暂时用转换字符解决
     var $ = cheerio.load(this.data.replace(/'<'/g, '\'&lt;\''),{decodeEntities: false}),
         self = this;
-    
+
     //添加特殊标示，以便于去除col的样式影响。
     $('body').attr('cms-node', 'made');
-    if(this.fileName.indexOf('article-list') !== -1) {
+    let fileName = this.fileName
+    let isArticleList = fileName.indexOf('article-list') !== -1
+    let isArticleFinal = fileName.indexOf('final') !== -1 || fileName.indexOf('article') !== -1
+    if(isArticleList) {
       // include 文章列表页
       var article_fragment_1 = fs.readFileSync(thisPath + '/static/template/inc-article-list/inc-article-list-1.shtml', {encoding:'utf8'});
       // ifCond传递'<' 引起dom节点匹配问题，暂时用转换字符解决
       $('div.pagination').length && $('div.pagination').first().after('\r\n' + article_fragment_1.replace('\'<\'', '\'&lt;\'') + '\r\n').remove();
       $('div[cms-include="article-list-page"]').length && $('div[cms-include="article-list-page"]').after('\r\n' + article_fragment_1.replace('\'<\'', '\'&lt;\'') + '\r\n').remove();
-    } else {
+    } else if (isArticleFinal) {
       /*// include 文章终极页
       var article_fragment_1 = fs.readFileSync(thisPath + '/template/inc-article/inc-article-1.shtml', {encoding:'utf8'}),
           article_fragment_2 = fs.readFileSync(thisPath + '/template/inc-article/inc-article-2.shtml', {encoding:'utf8'}),
@@ -115,6 +119,12 @@ module.exports = {
       }).after('\r\n' + article_fragment_1 + '\r\n');
 
       $('head script').last().after('\r\n' + article_fragment_2 + '\r\n');*/
+      if (jetpack.exists(DB_PATH)) {
+        let dbData = jetpack.read(DB_PATH, 'json')
+        if (dbData) {
+          articleModule = dbData.articleModule.value
+        }
+      }
       $('div[cms-include="article"]').after(`<cmsmodule path="global-modules/${articleModule}.shtml"/>`).remove();
     }
 

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "cheerio": "^0.20.0",
+    "fs-jetpack": "^0.9.2",
     "iconv-lite": "^0.4.13",
     "log": "^1.4.0",
     "ncp": "^2.0.0",
@@ -21,12 +22,17 @@
   },
   "articleMods": [
     {
-      "value": "article-zhuanqu-v2",
-      "label": "article-zhuanqu-v2.shtml(v2巴拉巴拉)"
-    }, {
       "value": "article-zhuanqu-v3",
+      "label": "PC端类新闻频道模板"
+    },
+    {
+      "value": "m-article-v2",
+      "label": "移动端模板"
+    },
+    {
+      "value": "zhuangqu_cy_v2",
       "default": true,
-      "label": "article-zhuanqu-v3.shtml(v3巴拉巴拉)"
+      "label": "PC端模板"
     }
   ]
 }

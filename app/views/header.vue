@@ -2,6 +2,10 @@
   <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"><img class="electron-icon" :src="logoUrl"><span class="project-name">奥创</span></a>
+      <div class="btn-group">
+        <button type="button" class="btn btn-link" @click="openFileDialog"><i class="fa fa-files-o"></i> 打开</button>
+        <button type="button" class="btn btn-link" v-show="rootPath" @click="updateAllFiles"><i class="fa fa-refresh"></i> 刷新</button>
+      </div>
       <ul class="nav navbar-nav pull-right">
         <li class="nav-item" v-show="rootPath"><a class="nav-link" href="javascript:;" @click="generateFiles"><i class="fa fa-object-ungroup"></i> 生成</a></li>
         <li class="nav-item" v-show="rootPath"><a class="nav-link" href="javascript:;" @click="compressFiles"><i class="fa fa-file-zip-o"></i> 压缩</a></li>
@@ -61,7 +65,7 @@
         <td>切换</td>
         <td>cms-data-type="tab"</td>
       </tr>
-      
+
     </table>
   </aside-modal>
 </template>
@@ -70,6 +74,8 @@
   import {
     mergeFiles,
     generateFiles,
+    openFileDialog,
+    updateAllFiles,
     compressFiles
   } from '../vuex/actions'
 
@@ -83,6 +89,8 @@
         rootPath: state => state.rootPath
       },
       actions: {
+        openFileDialog,
+        updateAllFiles,
         mergeFiles,
         generateFiles,
         compressFiles
@@ -120,7 +128,12 @@
     display: inline-block;
     margin-right: 0.4em;
   }
-  .project-name {
-
+  .navbar .btn-group {
+    margin-left: 60px;
+  }
+  .navbar .btn-link {
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    outline: none;
   }
 </style>

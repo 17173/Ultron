@@ -1,17 +1,18 @@
-<template >
+<template>
   <header-view></header-view>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="sidebar">
+  <div class="ultron-workspace">
+    <div class="ultron-workspace-axis">
+      <ultron-panel class="left">
         <sidebar-view></sidebar-view>
-      </div>
-      <div class="main">
-        <div class="page-header">{{filename}}</div>
-        <textarea id="code"></textarea>
-      </div>
+      </ultron-panel>
+      <ultron-panel class="vertical">
+        <div class="ultron-code-container">
+          <textarea id="code"></textarea>
+        </div>
+      </ultron-panel>
     </div>
+    <footer-view></footer-view>
   </div>
-  <footer-view></footer-view>
   <file-option :show.sync="showFileOption" :file-name.sync="curFileName"></file-option>
   <modal :show.sync="showModal" title="提示信息" content="不能删除 merge 目录！"></modal>
   <modal :show.sync="showSetting" title="设置" :has-footer="false">
@@ -39,6 +40,7 @@
 import Multiselect from 'vue-multiselect'
 import fileOption from './components/option.vue'
 import modal from './components/modal.vue'
+import ultronPanel from './components/panel.vue'
 
 import headerView from './views/header.vue'
 import footerView from './views/footer.vue'
@@ -90,24 +92,6 @@ export default {
       checkUpdate
     }
   },
-
-  /* watch: {
-    code (newVal) {
-      console.log('watch code')
-      if (newVal && this.editor) {
-        this.silent = true
-        this.editor.setValue(newVal)
-        this.editor.moveCursorTo(0, 0)
-        this.silent = false
-      }
-    },
-
-    codePosition (newVal) {
-      if (newVal && this.editor) {
-        this.editor.moveCursorTo(newVal.row - 1, newVal.column - 1)
-      }
-    }
-  },*/
 
   data () {
     return {
@@ -210,7 +194,7 @@ export default {
       })
       editor.$blockScrolling = Infinity
       editor.on('change', () => {
-        if (this.silent) return
+        if (this.silent || !this.filepath) return
         console.log('editor change and cursor position: ', this.editor.getCursorPosition())
         this.updateCode(editor.getValue())
         this.updateFile()
@@ -245,6 +229,7 @@ export default {
   },
   components: {
     modal,
+    ultronPanel,
     Multiselect,
     fileOption,
     headerView,
@@ -253,24 +238,17 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 /*
  * Base structure
  */
 
 /* Move down content because we have a fixed navbar that is 50px tall */
-body {
-  padding-top: 50px;
+html, body {
+  height: 100%;
 }
-
-
-/*
- * Global add-ons
- */
-
-.sub-header {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+body {
+  padding-top: 54px;
 }
 
 /*
@@ -280,74 +258,6 @@ body {
 .navbar-fixed-top {
   border: 0;
 }
-
-/*
- * Sidebar
- */
-
-/* Hide for mobile, show later */
-.sidebar {
-  display: none;
-  width: 26%;
-}
-.sidebar, .main {
-  float: left;
-}
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 10px;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color: #E6E9F0;
-    border-right: 1px solid #eee;
-  }
-}
-
-/* Sidebar navigation */
-.nav-sidebar {
-  margin-right: -11px; /* 20px padding + 1px border */
-  margin-bottom: 10px;
-  margin-left: -10px;
-}
-.nav-sidebar > li > a {
-  padding-right: 10px;
-  padding-left: 10px;
-}
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
-}
-
-
-/*
- * Main content
- */
-
-.main {
-  padding-bottom: 30px;
-  margin-left: 26%;
-  width: 74%;
-}
-@media (min-width: 768px) {
-  .main {
-
-  }
-}
-.main .page-header {
-  margin: 0;
-  padding-left: 4px;
-  padding-top: 4px;
-  font-weight: 700;
-}
-
 
 /*
  * Placeholder dashboard ideas
@@ -374,5 +284,23 @@ body {
   text-align: center;
   font-size: 20px;
 }
+.ultron {
+  &-workspace {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
 
+    &-axis {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+  &-code {
+    &-container {
+      overflow: auto;
+    }
+  }
+}
 </style>

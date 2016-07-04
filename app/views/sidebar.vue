@@ -1,26 +1,14 @@
 <template>
-  <div class="explore">
-    <span class="text-uppercase">explore</span> 
-    <span class="pull-right" @click="openFileDialog"><i class="fa fa-files-o"></i> 打开</span>
-    <span class="pull-right refresh-file" v-show="filepath" @click="updateAllFiles"><i class="fa fa-refresh"></i> 刷新</span>
-  </div>
-  <!-- <div class="working-files">
-    <h3 class="sidebar-title">open files</h3>
-    <ul class="list-unstyled selected-file" v-repeat="selectedFile in selectedFiles">
-      <li><i class="fa fa-close"></i> {{selectedFile.name}}</li>
-    </ul>
-  </div> -->
-
-  <div class="project-files">
-    <h3 class="sidebar-title">folders</h3>
+  <div class="tree-view-resizer" :style="{width: width + 'px'}">
     <ul class="tree">
       <tree :model="treeData" :filepath="filepath"></tree>
     </ul>
+    <resizer :size.sync="width" :min-size="168"></resizer>
   </div>
 </template>
 <script>
   import tree from '../components/tree.vue'
-
+  const resizer = require('vue-resize-handle/unidirectional')
   import {
     setTreeData,
     setRootPath,
@@ -49,7 +37,8 @@
     },
     data () {
       return {
-        selectedFiles: []
+        selectedFiles: [],
+        width: 360
       }
     },
 
@@ -96,12 +85,40 @@
       })
     },
 
+    methods: {
+      onResize (event) {
+        console.log(event.clientX)
+        // this.setTreeWidth(event.clientX)
+      }
+    },
+
     components: {
-      tree
+      tree,
+      resizer
     }
   }
 </script>
-<style>
+<style lang="scss">
+.tree {
+  &-view {
+    &-resizer {
+      min-width: 100px;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      -webkit-user-select: none;
+    }
+    &-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 4px;
+      cursor: col-resize;
+      z-index: 3;
+    }
+  }
+}
 .project-files {
   margin-top: 20px;
 }

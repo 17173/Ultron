@@ -113,15 +113,6 @@ app.on('ready', () => {
     })
   })
 
-  // 计算路径，供 render process
-  ipcMain.on('computePath', (event, oldPath, newFileName) => {
-    event.returnValue = join(path.dirname(oldPath), newFileName)
-  })
-
-  ipcMain.on('joinPath', (event, filepath, fileName) => {
-    event.returnValue = join(filepath, fileName)
-  })
-
   // 生产处理过的文件
   // TODO 能同步新增或删除的文件
   ipcMain.on('generateFiles', (event, rootPath) => {
