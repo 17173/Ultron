@@ -42,14 +42,6 @@
         <td>cms-data-type="gallery"</td>
       </tr>
       <tr>
-        <td>菜单</td>
-        <td>cms-data-type="menu"</td>
-      </tr>
-      <tr>
-        <td>排行榜</td>
-        <td>cms-data-type="board"</td>
-      </tr>
-      <tr>
         <td>图片</td>
         <td>cms-data-type="image"</td>
       </tr>
@@ -58,14 +50,29 @@
         <td>cms-data-type="video"</td>
       </tr>
       <tr>
+        <td>Tab</td>
+        <td>cms-data-type="tab"</td>
+      </tr>
+      <tr>
+        <td>排行榜</td>
+        <td>cms-data-type="board"</td>
+      </tr>
+      <tr>
+        <td>投票</td>
+        <td>cms-data-type="gallery"</td>
+      </tr>
+      <tr>
+        <td>第三方</td>
+        <td>cms-data-type="gallery"</td>
+      </tr>
+      <tr>
+        <td>菜单</td>
+        <td>cms-data-type="menu"</td>
+      </tr>
+      <tr>
         <td>组合组件</td>
         <td>cms-data-type="group"</td>
       </tr>
-      <tr>
-        <td>切换</td>
-        <td>cms-data-type="tab"</td>
-      </tr>
-
     </table>
   </aside-modal>
 </template>
