@@ -1,10 +1,15 @@
 import { app, BrowserWindow, ipcMain, dialog, globalShortcut } from 'electron'
+import jetpack from 'fs-jetpack'
 const path = require('path')
 const join = path.join
 
-const file = require('./lib/file')
+// const file = require('./lib/file')
 const util = require('./lib/util')
-const ultron = require('./lib/ultron')
+
+import merge from './lib/merge'
+import generate from './lib/generate'
+import compress from './lib/compress'
+
 const updater = require('./lib/updater')
 
 const MERGE_PATH = 'merge'
@@ -46,10 +51,11 @@ app.on('ready', () => {
 
   const processFiles = (event, filepath) => {
     if (filepath) {
-      if (file.exists(join(filepath, MERGE_PATH))) {
+      if (jetpack.exists(join(filepath, MERGE_PATH))) {
         loadFiles(event, filepath)
       } else {
-        ultron.merge(filepath, () => {
+        console.log(merge)
+        merge.start(filepath, () => {
           loadFiles(event, filepath)
         })
       }
@@ -76,35 +82,35 @@ app.on('ready', () => {
   // 读文件
   ipcMain.on('readFile', (event, filepath) => {
     var value = null
-    if (file.exists(filepath)) {
-      value = file.read(filepath)
+    if (jetpack.exists(filepath)) {
+      value = jetpack.read(filepath)
     }
     event.returnValue = value
   })
 
   // 写文件
   ipcMain.on('writeFile', (event, filepath, content) => {
-    if (!file.exists(filepath)) return
+    if (!jetpack.exists(filepath)) return
 
-    file.write(filepath, content)
+    jetpack.write(filepath, content)
   })
 
   // 合并文件
   ipcMain.on('mergeFiles', (event, rootPath) => {
-    ultron.merge(rootPath, () => {
+    merge.start(rootPath, () => {
       loadFiles(event, rootPath)
     })
   })
 
   // 删除目录
   ipcMain.on('removeDir', (event, filepath) => {
-    file.rmdirSync(filepath)
+    jetpack.remove(filepath)
   })
 
   // 异步更改文件路径
   ipcMain.on('renameFile', (event, oldPath, newFileName) => {
     let newPath = join(path.dirname(oldPath), newFileName)
-    file.rename(oldPath, newPath, (err) => {
+    jetpack.renameAsync(oldPath, newFileName, (err) => {
       if (err) {
         console.log(err)
         return false
@@ -116,7 +122,7 @@ app.on('ready', () => {
   // 生产处理过的文件
   // TODO 能同步新增或删除的文件
   ipcMain.on('generateFiles', (event, rootPath) => {
-    ultron.generate(rootPath, () => {
+    generate.start(rootPath, () => {
       loadFiles(event, rootPath)
     })
   })
@@ -124,11 +130,11 @@ app.on('ready', () => {
   // 压缩处理过的文件
   ipcMain.on('compressFiles', (event, rootPath) => {
     var curPath = path.join(rootPath, 'out')
-    if (!file.exists(curPath)) {
+    if (!jetpack.exists(curPath)) {
       util.showMessageBox('请先点击生成，后再压缩！')
       return
     }
-    ultron.compress(curPath, () => {
+    compress.start(curPath, () => {
       loadFiles(event, rootPath)
     })
   })
