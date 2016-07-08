@@ -1,8 +1,10 @@
 <template>
   <div class="tree-view-resizer" :style="{width: width + 'px'}">
-    <ul class="tree">
-      <tree :model="treeData" :filepath="filepath"></tree>
-    </ul>
+    <div class="tree-view-scroller">
+      <ul class="tree-view">
+        <tree :model="treeData" :filepath="filepath"></tree>
+      </ul>
+    </div>
     <resizer :size.sync="width" :min-size="168"></resizer>
   </div>
 </template>
@@ -19,7 +21,7 @@
   } from '../vuex/actions'
 
   const ipc = require('electron').ipcRenderer
-  
+
   module.exports = {
     vuex: {
       getters: {
@@ -107,6 +109,15 @@
       flex: 1;
       flex-direction: column;
       -webkit-user-select: none;
+      overflow: hidden;
+    }
+    &-scroller {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      width: 100%;
+      overflow: auto;
+      transform: translate3d(0, 0, 0);
     }
     &-handle {
       position: absolute;

@@ -1,6 +1,6 @@
 <template>
   <li class="tree-item" :class="{active: isActived}">
-    <div class="tree-node" data-file="{{model.fullPath}}" 
+    <div class="tree-node" data-file="{{model.fullPath}}"
       @mouseenter="hoverNode"
       @click="activeNode(model)"
       @dblclick="selectNode(model.fullPath, model.name)"
@@ -105,24 +105,31 @@ module.exports = {
   }
 }
 </script>
-<style>
-.tree,
+<style lang="scss">
+.tree-view,
 .tree-item {
   list-style: none;
 }
-.tree {
+.tree-view {
+  flex-grow: 1;
+  flex-shrink: 0;
+  min-width: -webkit-min-content;
+  min-height: 100%;
+  position: relative;
   padding: 10px 0 0 10px;
   margin: 0;
   color: #666;
   font-size: 15px;
   display: flex;
-  flex: 1;
   flex-direction: column;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
 }
 .tree-node {
   padding: 8px 0;
+  white-space: nowrap;
+}
+.tree-node-name {
 }
 
 .tree-node i {

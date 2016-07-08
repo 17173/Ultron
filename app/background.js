@@ -3,14 +3,13 @@ import jetpack from 'fs-jetpack'
 const path = require('path')
 const join = path.join
 
-// const file = require('./lib/file')
 const util = require('./lib/util')
 
 import merge from './lib/merge'
 import generate from './lib/generate'
 import compress from './lib/compress'
 
-const updater = require('./lib/updater')
+import updater from './lib/updater'
 
 const MERGE_PATH = 'merge'
 
