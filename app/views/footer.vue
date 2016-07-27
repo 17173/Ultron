@@ -12,7 +12,7 @@
 
 <template>
   <footer class="footer">
-    {{filename}} {{codePosition.row}}:{{codePosition.column}}
+    {{filepath}} {{codePosition.row}}:{{codePosition.column}}
   </footer>
 </template>
 
@@ -20,7 +20,7 @@
 module.exports = {
   vuex: {
     getters: {
-      filename: state => state.filename,
+      filepath: state => state.filepath,
       codePosition: state => state.codePosition
     }
   }

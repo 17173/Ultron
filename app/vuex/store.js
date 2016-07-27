@@ -6,11 +6,12 @@ import {ipcRenderer, remote} from 'electron'
 Vue.use(Vuex)
 
 const userPath = remote.app.getPath('userData')
+const UNTITLED = 'untitled'
 console.log('userData path %s', userPath)
 const state = {
   treeData: {},
   filepath: '',
-  filename: 'untitled',
+  filename: UNTITLED,
   rootPath: '',
   code: '',
   treeWidth: 360,
@@ -71,6 +72,8 @@ const mutations = {
   },
 
   DELETE_DIR (state, filepath) {
+    state.filename = UNTITLED
+    state.code = ''
     ipcRenderer.send('removeDir', filepath)
   },
 

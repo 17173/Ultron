@@ -6,6 +6,9 @@
         <sidebar-view></sidebar-view>
       </ultron-panel>
       <ultron-panel class="vertical">
+        <div class="ultron-header">
+          <div class="ultron-title">{{filename}} <span v-if="isModified">*</span></div>
+        </div>
         <div class="ultron-code-container">
           <textarea id="code"></textarea>
         </div>
@@ -102,6 +105,7 @@ export default {
       showSetting: false,
       curFileName: '',
       curModel: null,
+      isModified: false,
       oldFileName: ''
     }
   },
@@ -133,6 +137,7 @@ export default {
       this.showSetting = true
     },
     onTreeClick (filepath, filename) {
+      this.isModified = false
       this.readFile(filepath)
       this.setFileStatus(filename, filepath)
       this.renderEditor()
@@ -175,6 +180,7 @@ export default {
     },
 
     initEditor () {
+      let self = this
       let editor = this.editor = ace.edit(document.getElementById('code'))
 
       editor.setOptions({
@@ -189,16 +195,27 @@ export default {
         showPrintMargin: false,
         vScrollBarAlwaysVisible: false,
         // 错误提示
-        useWorker: false,
-        wrap: 'off'
+        useWorker: true,
+        wrap: 'on'
       })
       editor.$blockScrolling = Infinity
       editor.on('change', () => {
         if (this.silent || !this.filepath) return
         console.log('editor change and cursor position: ', this.editor.getCursorPosition())
-        this.updateCode(editor.getValue())
-        this.updateFile()
-        this.updateDB()
+        this.isModified = editor.getValue() !== this.code
+      })
+      editor.commands.addCommand({
+        name: 'saveShortcut',
+        bindKey: {
+          win: 'Ctrl-s',
+          mac: 'Command-s'
+        },
+        exec () {
+          self.updateCode(editor.getValue())
+          self.updateFile()
+          self.updateDB()
+          self.isModified = false
+        }
       })
       editor.session.selection.on('changeCursor', () => {
         let pos = editor.getCursorPosition()
@@ -301,6 +318,11 @@ body {
     &-container {
       overflow: auto;
     }
+  }
+  &-title {
+    padding: 10px 0 10px 10px;
+    background: #DFE1E8;
+    font-weight: 700;
   }
 }
 </style>

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, globalShortcut } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import jetpack from 'fs-jetpack'
 const path = require('path')
 const join = path.join
@@ -40,14 +40,6 @@ app.on('ready', () => {
 
   require('./menu')
 
-  var ret = globalShortcut.register('ctrl+o', () => {
-    console.log('ctrl+o is pressed')
-  })
-
-  if (!ret) {
-    console.log('registration failed')
-  }
-
   const processFiles = (event, filepath) => {
     if (filepath) {
       if (jetpack.exists(join(filepath, MERGE_PATH))) {
@@ -75,7 +67,7 @@ app.on('ready', () => {
 
   // 更新文件
   ipcMain.on('updateFiles', (event, filepath) => {
-    loadFiles(event, filepath)
+    processFiles(event, filepath)
   })
 
   // 读文件
