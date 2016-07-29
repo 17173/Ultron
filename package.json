@@ -1,7 +1,7 @@
 {
   "scripts": {
     "postinstall": "cd app && npm install",
-    "md": "ghmd --title 更新日志 --dest app/changelog.html CHANGELOG.md",
+    "md": "ghmd --title 更新日志 --dest dist/changelog.html CHANGELOG.md",
     "start": "node build/dev-runner.js",
     "dev:server": "node build/dev-server.js",
     "dev:client": "cross-env HOT=1 webpack --hide-modules --config build/webpack.dev-background.conf.js && cross-env HOT=1 electron",

@@ -3,7 +3,7 @@
   "productName": "Ultron",
   "identifier": "17173.com.ultron",
   "description": "CMS3.0 template tools",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "lynzz <lynzz168@gmail.com>",
   "main": "background.js",
   "config": {

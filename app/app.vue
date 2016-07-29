@@ -116,10 +116,11 @@ export default {
       model.fullPath = newPath
       this.updateTreeData(model)
     })
-    ipc.on('afterCheckUpdate', (event, articleMods) => {
-      this.articleMods = articleMods
+    ipc.on('afterCheckUpdate', (event, pkg) => {
+      this.articleMods = pkg.articleMods
+      console.log('%c latest version: %s', 'color: #42b983', pkg.version)
       if (!this.articleModule) {
-        let articleModule = articleMods.filter(item => item.default)[0]
+        let articleModule = pkg.articleMods.filter(item => item.default)[0]
         this.setArticleModule(articleModule)
         this.updateDB()
       }

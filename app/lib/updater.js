@@ -31,7 +31,7 @@ export default {
         }
         pkg = JSON.parse(pkg)
         var version = pkg.version
-        event.sender.send('afterCheckUpdate', pkg.articleMods)
+        event.sender.send('afterCheckUpdate', pkg)
         logger.info('latest version: %s', version)
         logger.info('current version: %s', app.getVersion())
 

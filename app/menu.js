@@ -1,10 +1,5 @@
-const electron = require('electron')
-
-const app = electron.app
-const dialog = electron.dialog
-const BrowserWindow = electron.BrowserWindow
-
-const Menu = electron.Menu
+import { app, dialog, BrowserWindow, Menu } from 'electron'
+import path from 'path'
 
 var menu = new Menu()
 
@@ -108,12 +103,12 @@ var template = [
     submenu: [
       {
         label: '关于 Ultron',
-        click () { 
+        click () {
           dialog.showMessageBox({
             title: '关于',
             type: 'info',
             buttons: [],
-            message: app.getName() + '\r版本 ' + app.getVersion() 
+            message: app.getName() + '\r版本 ' + app.getVersion()
           })
         }
       }, {
@@ -124,7 +119,7 @@ var template = [
             win = null
           })
 
-          win.loadURL('file://' + __dirname + '/CHANGELOG.html')
+          win.loadURL('file://' + path.join(__dirname, 'CHANGELOG.html'))
           win.show()
         }
       }
